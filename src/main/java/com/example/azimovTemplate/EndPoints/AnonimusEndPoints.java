@@ -46,9 +46,10 @@ public class AnonimusEndPoints {
          */
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        dbConnection.addUser(user);
         // may be set token as encode id
-        registration.autoLogin(user, pass, request);
+
+            registration.regiter(user, pass, request);
+
         response.addCookie(registration.setCookieToken(user.getName()));
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -74,8 +75,5 @@ public class AnonimusEndPoints {
     public ModelAndView homePage() {
         return new ModelAndView("redirect:/homePage.html");
     }
-
-
-
 
 }

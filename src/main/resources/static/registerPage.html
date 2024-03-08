@@ -7,6 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+<h1 id="er"></h1>
 <form id="registrationForm">
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required><br>
@@ -41,6 +42,7 @@
                 window.location.href = '/home';
             },
             error: function(err) {
+                document.getElementById("er").innerHTML = err.responseText;
                 console.error(err);
             }
         });

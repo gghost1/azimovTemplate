@@ -18,11 +18,12 @@ public class UserModel {
     private String email;
     @Column(unique = true)
     private String phone;
+    @Column(unique = true)
     private String name;
-    private String surname;
     private String password;
     private String roles;
     private String code;
+    private boolean isVerified;
     // here token should be saved(if user will create
     // test and the answer will be mush later token will be updated)
 }
