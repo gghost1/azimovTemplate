@@ -57,7 +57,6 @@ public class AnonimusEndPoints {
 
     @GetMapping("/register/{code}")
     public ModelAndView verification(@PathVariable String code, HttpServletResponse response, HttpServletRequest request) {
-        System.out.println("goin");
         registration.verificate(code, request);
         return new ModelAndView("redirect:/auth");
     }
@@ -69,7 +68,6 @@ public class AnonimusEndPoints {
     @PostMapping("/authen")
     public ResponseEntity auth(@RequestBody UserModel user, HttpServletResponse response, HttpServletRequest request) throws IOException {
         String pass = user.getPassword();
-
 
         // may be set token as encode id
         registration.autoLogin(user, pass, request);

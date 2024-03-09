@@ -70,19 +70,16 @@ public class RegistrationService {
             String buffer[] = string.split("_", 2);
             code = buffer[0];
             name = security.decodeString(buffer[1]);
-            System.out.println("url");
         } else {
             code = string;
             Cookie[] cookies = request.getCookies();
             name = security.decodeString(Arrays.stream(cookies).filter(a -> a.getName().equals("token")).findFirst().orElseThrow().getValue());
-            System.out.println("code");
         }
         UserModelDetails userDetails = userModelDetailsService.loadUserByUsername(name);
         if (userDetails.isVerified()) {
             throw new IllegalArgumentException("You are already verified");
         }
         if (userDetails.getCode().equals(code)) {
-            System.out.println("check");
             UserModel user = userDetails.getUser();
             user.setVerified(true);
             user.setCode("");
