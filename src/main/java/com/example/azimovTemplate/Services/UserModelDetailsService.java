@@ -16,8 +16,14 @@ public class UserModelDetailsService implements UserDetailsService {
     private UserModelReprository reprository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserModelDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserModel> user = reprository.findByName(username);
         return user.map(UserModelDetails::new).orElseThrow(() -> new UsernameNotFoundException(username + " not found"));
+    }
+    public void updateUser(UserModel user) throws Exception {
+        Optional<UserModel> userOld = reprository.findByName(user.getName());
+        if (userOld.isEmpty()) throw new Exception();
+        reprository.delete(userOld.orElseThrow());
+        reprository.save(user);
     }
 }

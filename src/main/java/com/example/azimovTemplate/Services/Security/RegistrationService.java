@@ -1,7 +1,10 @@
 package com.example.azimovTemplate.Services.Security;
 
 import com.example.azimovTemplate.Models.User.UserModel;
+import com.example.azimovTemplate.Models.User.UserModelDetails;
 import com.example.azimovTemplate.Services.DbConnection;
+import com.example.azimovTemplate.Services.Generator;
+import com.example.azimovTemplate.Services.SenderEmails;
 import com.example.azimovTemplate.Services.Reprositories.UserModelReprository;
 import com.example.azimovTemplate.Services.UserModelDetailsService;
 import jakarta.servlet.http.Cookie;
@@ -13,10 +16,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 
@@ -30,8 +33,12 @@ public class RegistrationService {
     @Autowired
     private UserModelReprository reprository;
     private DbConnection dbConnection;
+    private Generator generator;
+    private SenderEmails mailSender;
+    private SecurityConfig security;
 
-    public void regiter(UserModel user, String password, HttpServletRequest request) {
+
+    public void regiter(UserModel user, String password) {
 
         if (!reprository.findByEmail(user.getEmail()).isEmpty()) throw new IllegalArgumentException("Email is already used");
 
@@ -43,10 +50,48 @@ public class RegistrationService {
 
         if (!isValidPassword(password)) throw new IllegalArgumentException("Password should contains letters, digits and symbols(*/-+?;:%())");
 
+
+        user.setCode(generator.generateVerificationCode());
+
+        mailSender.sendMessage(user.getEmail(),
+                "Verification code",
+                mailSender.generateVerificationText(user.getCode(), user.getName()));
+
+        user.setVerified(false);
+
         dbConnection.addUser(user);
 
-        autoLogin(user, password, request);
 
+    }
+
+    public void verificate(String string, HttpServletRequest request) {
+        String name, code;
+        if (string.contains("_")) {
+            String buffer[] = string.split("_", 2);
+            code = buffer[0];
+            name = security.decodeString(buffer[1]);
+            System.out.println("url");
+        } else {
+            code = string;
+            Cookie[] cookies = request.getCookies();
+            name = security.decodeString(Arrays.stream(cookies).filter(a -> a.getName().equals("token")).findFirst().orElseThrow().getValue());
+            System.out.println("code");
+        }
+        UserModelDetails userDetails = userModelDetailsService.loadUserByUsername(name);
+        if (userDetails.isVerified()) {
+            throw new IllegalArgumentException("You are already verified");
+        }
+        if (userDetails.getCode().equals(code)) {
+            System.out.println("check");
+            UserModel user = userDetails.getUser();
+            user.setVerified(true);
+            user.setCode("");
+            try {
+                userModelDetailsService.updateUser(user);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
     }
 
     private static boolean isValidPassword(String str) {
@@ -65,8 +110,13 @@ public class RegistrationService {
 
     public void autoLogin(UserModel user, String password, HttpServletRequest request) {
 
+        UserModelDetails userDetails = userModelDetailsService.loadUserByUsername(user.getName());
 
-        UserDetails userDetails = userModelDetailsService.loadUserByUsername(user.getName());
+        if (!userDetails.isVerified()){
+            throw new IllegalArgumentException("You are not verified");
+        }
+
+
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
@@ -79,7 +129,9 @@ public class RegistrationService {
             session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
         }
     }
+
     public Cookie setCookieToken(String token) {
+        token = security.encodeString(token);
         Cookie cookie = new Cookie("token", token);
         cookie.setSecure(true);
         cookie.setHttpOnly(true);

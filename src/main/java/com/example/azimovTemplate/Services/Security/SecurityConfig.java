@@ -23,6 +23,8 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.util.Base64;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
@@ -39,8 +41,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrg -> csrg.disable())
                 .authorizeRequests(auth -> auth
-                        .requestMatchers("/register", "/", "/auth", "/welcomePage.html", "/registerPage.html", "/loginPage.html").anonymous()
-                        .requestMatchers("/register", "/authen").anonymous()
+                        .requestMatchers("/register", "/", "/auth", "/welcomePage.html", "/registerPage.html", "/loginPage.html","/verificationPage.html").anonymous()
+                        .requestMatchers("/register", "/authen", "/register/{code}").anonymous()
                         .requestMatchers("/home").authenticated()
                         .requestMatchers("/*").authenticated()
                         .requestMatchers("/home/**").authenticated()
@@ -69,4 +71,10 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    public String encodeString(String string) {
+        return Base64.getEncoder().encodeToString(string.getBytes());
+    }
+    public String decodeString(String string) {
+        return new String(Base64.getDecoder().decode(string));
+    }
 }

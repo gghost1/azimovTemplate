@@ -20,6 +20,10 @@ public class UserModelDetails implements UserDetails {
         return Collections.emptyList();
     }
 
+    public UserModel getUser() {
+        return user;
+    }
+
     @Override
     public String getPassword() {
         return user.getPassword();
@@ -29,6 +33,10 @@ public class UserModelDetails implements UserDetails {
     public String getUsername() {
         return user.getName();
     }
+
+    public boolean isVerified() { return user.isVerified();}
+
+    public String getCode() { return user.getCode(); }
 
     @Override
     public boolean isAccountNonExpired() {

@@ -34,7 +34,7 @@ public class AnonimusEndPoints {
         return new ModelAndView("redirect:/registerPage.html");
     }
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody UserModel user, HttpServletResponse response, HttpServletRequest request) throws IOException {
+    public ResponseEntity register(@RequestBody UserModel user, HttpServletResponse response, HttpServletRequest request) {
         String pass = user.getPassword();
 
         // check something(may be sent sms and redirect to some page)
@@ -48,10 +48,18 @@ public class AnonimusEndPoints {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         // may be set token as encode id
 
-            registration.regiter(user, pass, request);
+        registration.regiter(user, pass);
 
         response.addCookie(registration.setCookieToken(user.getName()));
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+
+    @GetMapping("/register/{code}")
+    public ModelAndView verification(@PathVariable String code, HttpServletResponse response, HttpServletRequest request) {
+        System.out.println("goin");
+        registration.verificate(code, request);
+        return new ModelAndView("redirect:/auth");
     }
 
     @GetMapping("/auth")
