@@ -48,6 +48,7 @@ public class SecurityConfig {
                         .requestMatchers("/home/**").authenticated()
                 )
                 .formLogin(formLogin -> formLogin.loginPage("/auth").defaultSuccessUrl("/home"))
+                .logout(a -> a.logoutSuccessUrl("/").deleteCookies("token","JSESSIONID"))
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .build();
 

@@ -60,6 +60,10 @@ public class AnonimusEndPoints {
         registration.verificate(code, request);
         return new ModelAndView("redirect:/auth");
     }
+    @PostMapping("/resendCode")
+    public ResponseEntity resendCode() {
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
     @GetMapping("/auth")
     public ModelAndView loginPage() { // will return some page

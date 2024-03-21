@@ -7,12 +7,14 @@ import com.example.azimovTemplate.Services.Generator;
 import com.example.azimovTemplate.Services.SenderEmails;
 import com.example.azimovTemplate.Services.Reprositories.UserModelReprository;
 import com.example.azimovTemplate.Services.UserModelDetailsService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,11 +54,13 @@ public class RegistrationService {
 
 
         user.setCode(generator.generateVerificationCode());
+        try {
+            mailSender.sendMessage(user.getEmail(),
+                    "Verification code",
+                    mailSender.generateVerificationText(user.getCode(), user.getName()));
+        } catch (MessagingException e) {
 
-        mailSender.sendMessage(user.getEmail(),
-                "Verification code",
-                mailSender.generateVerificationText(user.getCode(), user.getName()));
-
+        }
         user.setVerified(false);
 
         dbConnection.addUser(user);
@@ -88,6 +92,8 @@ public class RegistrationService {
             } catch (Exception e) {
                 System.out.println(e);
             }
+        } else {
+            throw new BadCredentialsException("Incorrect code");
         }
     }
 
@@ -103,7 +109,6 @@ public class RegistrationService {
                 letterPattern.matcher(str).find() &&
                 digitPattern.matcher(str).find();
     }
-
 
     public void autoLogin(UserModel user, String password, HttpServletRequest request) {
 
@@ -124,6 +129,8 @@ public class RegistrationService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             HttpSession session = request.getSession(true);
             session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+        } else {
+            throw new BadCredentialsException("Username or password are incorrect");
         }
     }
 

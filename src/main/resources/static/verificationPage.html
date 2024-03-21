@@ -5,6 +5,38 @@
     <title>Verification</title>
 </head>
 <body>
+<form id="verificationForm" method="GET" action="register/" >
+    <label>Code:</label>
+    <input type="text" id="code"/>
+    <input type="submit" value="Submit">
+</form>
+
+<form id="resend">
+    <input type="submit" />
+</form>
+
+<script>
+    document.getElementById("verificationForm").onsubmit = function () {
+        window.location = "/register/" + document.getElementById("code").value;
+        return false;
+    }
+    $('#resend').on('submit', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: "POST",
+            url: "/resendCode",
+            contentType: "application/json",
+            data: JSON.stringify(),
+            success: function(response) {
+                window.location.href = '/verificationPage.html';
+            },
+            error: function(err) {
+                console.error(err);
+            }
+        });
+    });
+</script>
 
 </body>
 </html>
