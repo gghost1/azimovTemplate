@@ -9,7 +9,10 @@ import lombok.Data;
 public class TestModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long id;
+    private long id;
+    @Column(unique = true)
+    private String username;
+    private byte[] bytes;
     private String type;
     private int count;
     private String book;

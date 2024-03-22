@@ -11,8 +11,8 @@
     <input type="submit" value="Submit">
 </form>
 
-<form id="resend">
-    <input type="submit" />
+<form id="resend" action="/resendCode" method="post">
+    <input type="submit" value="Resend code"/>
 </form>
 
 <script>
@@ -20,22 +20,8 @@
         window.location = "/register/" + document.getElementById("code").value;
         return false;
     }
-    $('#resend').on('submit', function(e) {
-        e.preventDefault();
 
-        $.ajax({
-            type: "POST",
-            url: "/resendCode",
-            contentType: "application/json",
-            data: JSON.stringify(),
-            success: function(response) {
-                window.location.href = '/verificationPage.html';
-            },
-            error: function(err) {
-                console.error(err);
-            }
-        });
-    });
+
 </script>
 
 </body>

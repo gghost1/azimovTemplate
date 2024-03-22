@@ -2,16 +2,15 @@ package com.example.azimovTemplate.Services.Security;
 
 import com.example.azimovTemplate.Models.User.UserModel;
 import com.example.azimovTemplate.Models.User.UserModelDetails;
-import com.example.azimovTemplate.Services.DbConnection;
-import com.example.azimovTemplate.Services.Generator;
-import com.example.azimovTemplate.Services.SenderEmails;
+import com.example.azimovTemplate.Models.User.UserModelDetailsService;
+import com.example.azimovTemplate.Services.*;
 import com.example.azimovTemplate.Services.Reprositories.UserModelReprository;
-import com.example.azimovTemplate.Services.UserModelDetailsService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
+import net.bytebuddy.utility.nullability.NeverNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -33,27 +32,33 @@ public class RegistrationService {
     @Autowired
     private UserModelDetailsService userModelDetailsService;
     @Autowired
-    private UserModelReprository reprository;
-    private DbConnection dbConnection;
-    private Generator generator;
+    private UserModelReprository userReprository;
+
+    private Utils utils;
     private SenderEmails mailSender;
     private SecurityConfig security;
 
 
     public void regiter(UserModel user, String password) {
 
-        if (!reprository.findByEmail(user.getEmail()).isEmpty()) throw new IllegalArgumentException("Email is already used");
+        if (userReprository.findByEmail(user.getEmail()).isPresent()) throw new IllegalArgumentException("Email is already used");
 
-        if (!reprository.findByPhone(user.getPhone()).isEmpty()) throw new IllegalArgumentException("Phone is already used");
+        if (userReprository.findByPhone(user.getPhone()).isPresent()) throw new IllegalArgumentException("Phone is already used");
 
-        if (reprository.findByName(user.getName()).isPresent()) throw new IllegalArgumentException("Username already exists");
+        if (userReprository.findByName(user.getName()).isPresent()) throw new IllegalArgumentException("Username already exists");
 
         if (password.length() < 8) throw new IllegalArgumentException("Password should have the length more than 8");
 
         if (!isValidPassword(password)) throw new IllegalArgumentException("Password should contains letters, digits and symbols(*/-+?;:%())");
 
 
-        user.setCode(generator.generateVerificationCode());
+        sendVerificationCode(user);
+    }
+
+    public void sendVerificationCode(String username) {
+        UserModelDetails userModelDetails = userModelDetailsService.loadUserByUsername(username);
+        UserModel user = userModelDetails.getUser();
+        user.setCode(utils.generateVerificationCode());
         try {
             mailSender.sendMessage(user.getEmail(),
                     "Verification code",
@@ -62,10 +67,19 @@ public class RegistrationService {
 
         }
         user.setVerified(false);
+        userModelDetailsService.addUser(user);
+    }
+    public void sendVerificationCode(UserModel user) {
+        user.setCode(utils.generateVerificationCode());
+        try {
+            mailSender.sendMessage(user.getEmail(),
+                    "Verification code",
+                    mailSender.generateVerificationText(user.getCode(), user.getName()));
+        } catch (MessagingException e) {
 
-        dbConnection.addUser(user);
-
-
+        }
+        user.setVerified(false);
+        userModelDetailsService.addUser(user);
     }
 
     public void verificate(String string, HttpServletRequest request) {
@@ -142,4 +156,5 @@ public class RegistrationService {
         cookie.setMaxAge(86400);
         return cookie;
     }
+
 }

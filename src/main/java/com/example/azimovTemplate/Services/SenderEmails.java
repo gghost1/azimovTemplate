@@ -1,5 +1,6 @@
 package com.example.azimovTemplate.Services;
 
+import com.example.azimovTemplate.Services.Security.SecurityConfig;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -17,7 +19,9 @@ public class SenderEmails {
 
     @Autowired
     private JavaMailSender javaMailSender;
-
+    @Autowired
+    private SecurityConfig decoder;
+    @Async
     public void sendMessage(String to, String subject, String text) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
@@ -36,7 +40,7 @@ public class SenderEmails {
     }
 
     public String generateVerificationText (String code, String name) {
-        name = Base64.getEncoder().encodeToString(name.getBytes());
+        name = decoder.encodeString(name);
         String link = String.format("http://10.91.49.245:8080/register/%s_%s", code,name);
         String text = String.format("<html><body>"
                 + "<h2> Ваш код: %s </h2> <h4>Также вы можете воспользоваться ссылкой: <a href='%s'> %s </a> </h4>"

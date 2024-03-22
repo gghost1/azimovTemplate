@@ -2,18 +2,24 @@ package com.example.azimovTemplate.EndPoints;
 
 
 import com.example.azimovTemplate.Models.User.UserModel;
-import com.example.azimovTemplate.Services.DbConnection;
+import com.example.azimovTemplate.Models.User.UserModelDetails;
+import com.example.azimovTemplate.Models.User.UserModelDetailsService;
 import com.example.azimovTemplate.Services.Security.RegistrationService;
+import com.example.azimovTemplate.Services.Security.SecurityConfig;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 
 @RestController
@@ -21,9 +27,10 @@ import java.io.IOException;
 @AllArgsConstructor
 public class AnonimusEndPoints {
 
-    private DbConnection dbConnection;
     private PasswordEncoder passwordEncoder;
     private RegistrationService registration;
+    @Autowired
+    private SecurityConfig security;
 
     @GetMapping("/")
     public ModelAndView welcomePage() { // will return some page
@@ -61,8 +68,11 @@ public class AnonimusEndPoints {
         return new ModelAndView("redirect:/auth");
     }
     @PostMapping("/resendCode")
-    public ResponseEntity resendCode() {
-        return new ResponseEntity(HttpStatus.OK);
+    public ModelAndView resendCode(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String name = security.decodeString(Arrays.stream(cookies).filter(a -> a.getName().equals("token")).findFirst().orElseThrow().getValue());
+        registration.sendVerificationCode(name);
+        return new ModelAndView("redirect:/verificationPage.html");
     }
 
     @GetMapping("/auth")

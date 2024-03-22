@@ -1,12 +1,8 @@
 package com.example.azimovTemplate.Services.Security;
 
-import com.example.azimovTemplate.Services.UserModelDetailsService;
-import jakarta.websocket.Decoder;
-import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.base64.Base64Encoder;
-import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.base64.Encoder;
+import com.example.azimovTemplate.Models.User.UserModelDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.support.EncodedResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -16,11 +12,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
-import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.Base64;
@@ -42,7 +35,7 @@ public class SecurityConfig {
         return http.csrf(csrg -> csrg.disable())
                 .authorizeRequests(auth -> auth
                         .requestMatchers("/register", "/", "/auth", "/welcomePage.html", "/registerPage.html", "/loginPage.html","/verificationPage.html").anonymous()
-                        .requestMatchers("/register", "/authen", "/register/{code}").anonymous()
+                        .requestMatchers("/register", "/authen", "/register/{code}", "/resendCode").anonymous()
                         .requestMatchers("/home").authenticated()
                         .requestMatchers("/*").authenticated()
                         .requestMatchers("/home/**").authenticated()
