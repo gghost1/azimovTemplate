@@ -2,8 +2,10 @@ package com.example.azimovTemplate.Services;
 
 import com.example.azimovTemplate.Models.Test.TestModel;
 import com.example.azimovTemplate.Models.User.UserModel;
+import com.example.azimovTemplate.Models.User.UsersProfile;
 import com.example.azimovTemplate.Services.Reprositories.TestModelReprository;
 import com.example.azimovTemplate.Services.Reprositories.UserModelReprository;
+import com.example.azimovTemplate.Services.Reprositories.UsersInformationModelReprository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,11 @@ import org.springframework.stereotype.Service;
 public class DbConnection {
     private UserModelReprository userReprository;
     private TestModelReprository testReprository;
+    private UsersInformationModelReprository profileReprository;
 
     public void addUser(UserModel user) {
         userReprository.save(user);
+        profileReprository.save(new UsersProfile(user));
     }
     public void updateUser(UserModel prevUser, UserModel newUser) {
         userReprository.delete(prevUser);

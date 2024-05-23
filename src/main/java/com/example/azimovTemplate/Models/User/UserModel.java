@@ -2,10 +2,6 @@ package com.example.azimovTemplate.Models.User;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.context.annotation.Role;
-import org.springframework.context.support.BeanDefinitionDsl;
-
-import java.util.List;
 
 @Data
 @Entity
@@ -24,6 +20,8 @@ public class UserModel {
     private String roles;
     private String code;
     private boolean isVerified;
+
+
     // here token should be saved(if user will create
     // test and the answer will be mush later token will be updated)
 }
