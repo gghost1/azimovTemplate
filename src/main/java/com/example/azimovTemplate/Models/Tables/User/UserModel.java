@@ -3,7 +3,7 @@ package com.example.azimovTemplate.Models.Tables.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Data
+
 @Entity
 @Table(name = "users")
 public class UserModel {
@@ -21,7 +21,6 @@ public class UserModel {
     private String code;
     private boolean isVerified;
     private boolean isCompany = false;
-
 
     // here token should be saved(if user will create
     // test and the answer will be mush later token will be updated)
