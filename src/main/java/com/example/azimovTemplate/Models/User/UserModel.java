@@ -20,7 +20,7 @@ public class UserModel {
     private String roles;
     private String code;
     private boolean isVerified;
-
+    private boolean isCompany = false;
 
     // here token should be saved(if user will create
     // test and the answer will be mush later token will be updated)

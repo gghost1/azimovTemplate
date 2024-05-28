@@ -38,6 +38,10 @@ public class UserModelDetails implements UserDetails {
 
     public String getCode() { return user.getCode(); }
 
+    public boolean isCompany() {
+        return user.isCompany();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
