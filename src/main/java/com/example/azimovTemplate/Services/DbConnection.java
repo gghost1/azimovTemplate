@@ -19,11 +19,16 @@ public class DbConnection {
 
     public void addUser(UserModel user) {
         userReprository.save(user);
-        profileReprository.save(new UsersProfile(user));
+        UsersProfile profile = new UsersProfile();
+        profile.setUser(user);
+        profileReprository.save(profile);
     }
     public void updateUser(UserModel prevUser, UserModel newUser) {
+        UsersProfile profile = profileReprository.findUsersProfileById(prevUser.getId()).orElse(null);
+        profileReprository.delete(profile);
         userReprository.delete(prevUser);
         userReprository.save(newUser);
+        profileReprository.save(profile);
     }
     public void addTest(TestModel test) {
         testReprository.save(test);

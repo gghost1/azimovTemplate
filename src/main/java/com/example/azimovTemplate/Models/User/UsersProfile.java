@@ -2,6 +2,7 @@ package com.example.azimovTemplate.Models.User;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Setter;
 
 @Data
 @Entity
@@ -12,11 +13,9 @@ public class UsersProfile {
 
     private int score;
 
+    @Setter
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     private UserModel user;
 
-    public UsersProfile(UserModel user) {
-        this.user = user;
-    }
 }
