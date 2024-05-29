@@ -1,8 +1,7 @@
-package com.example.azimovTemplate.Models.User;
+package com.example.azimovTemplate.Models.Tables.User;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Setter;
 
 @Data
 @Entity

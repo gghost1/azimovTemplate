@@ -1,9 +1,9 @@
 package com.example.azimovTemplate.Services;
 
-import com.example.azimovTemplate.Models.Test.TestModel;
-import com.example.azimovTemplate.Models.User.UserModel;
-import com.example.azimovTemplate.Models.User.UsersProfile;
-import com.example.azimovTemplate.Services.Reprositories.TestModelReprository;
+import com.example.azimovTemplate.Models.Tables.User.CompanyProfileModel;
+import com.example.azimovTemplate.Models.Tables.User.UserModel;
+import com.example.azimovTemplate.Models.Tables.User.UsersProfile;
+import com.example.azimovTemplate.Services.Reprositories.CompanyInformationModelReprository;
 import com.example.azimovTemplate.Services.Reprositories.UserModelReprository;
 import com.example.azimovTemplate.Services.Reprositories.UsersInformationModelReprository;
 import lombok.AllArgsConstructor;
@@ -14,27 +14,29 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class DbConnection {
     private UserModelReprository userReprository;
-    private TestModelReprository testReprository;
-    private UsersInformationModelReprository profileReprository;
+    private UsersInformationModelReprository userProfileReprository;
+    private CompanyInformationModelReprository companyProfileReprository;
 
     public void addUser(UserModel user) {
         userReprository.save(user);
         UsersProfile profile = new UsersProfile();
         profile.setUser(user);
-        profileReprository.save(profile);
+        userProfileReprository.save(profile);
     }
     public void updateUser(UserModel prevUser, UserModel newUser) {
-        UsersProfile profile = profileReprository.findUsersProfileById(prevUser.getId()).orElse(null);
-        profileReprository.delete(profile);
+        UsersProfile profile = userProfileReprository.findUsersProfileById(prevUser.getId()).orElse(null);
+        userProfileReprository.delete(profile);
         userReprository.delete(prevUser);
         userReprository.save(newUser);
-        profileReprository.save(profile);
+        userProfileReprository.save(profile);
     }
-    public void addTest(TestModel test) {
-        testReprository.save(test);
-    }
-    public void removeTest(long id) {
-        testReprository.deleteAllById(id);
+
+
+
+    public void updateCompanyProfile(CompanyProfileModel profile) {
+        CompanyProfileModel prevCompany = (CompanyProfileModel) companyProfileReprository.findById(profile.getId()).orElse(null);
+        companyProfileReprository.delete(prevCompany);
+        companyProfileReprository.save(profile);
     }
 
 }

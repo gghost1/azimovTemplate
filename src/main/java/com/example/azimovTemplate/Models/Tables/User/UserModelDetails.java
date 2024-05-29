@@ -1,4 +1,4 @@
-package com.example.azimovTemplate.Models.User;
+package com.example.azimovTemplate.Models.Tables.User;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

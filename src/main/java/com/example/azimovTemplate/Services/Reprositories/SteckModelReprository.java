@@ -1,6 +1,6 @@
 package com.example.azimovTemplate.Services.Reprositories;
 
-import com.example.azimovTemplate.Models.Steck;
+import com.example.azimovTemplate.Models.Tables.Steck;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

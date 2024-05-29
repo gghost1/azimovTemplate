@@ -1,4 +1,4 @@
-package com.example.azimovTemplate.Models;
+package com.example.azimovTemplate.Models.Tables;
 
 
 import jakarta.persistence.Entity;

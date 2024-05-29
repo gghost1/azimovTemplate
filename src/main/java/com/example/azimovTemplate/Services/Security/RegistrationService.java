@@ -1,7 +1,7 @@
 package com.example.azimovTemplate.Services.Security;
 
-import com.example.azimovTemplate.Models.User.UserModel;
-import com.example.azimovTemplate.Models.User.UserModelDetails;
+import com.example.azimovTemplate.Models.Tables.User.UserModel;
+import com.example.azimovTemplate.Models.Tables.User.UserModelDetails;
 import com.example.azimovTemplate.Services.DbConnection;
 import com.example.azimovTemplate.Services.Generator;
 import com.example.azimovTemplate.Services.SenderEmails;

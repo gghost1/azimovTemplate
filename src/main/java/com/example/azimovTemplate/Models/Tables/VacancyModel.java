@@ -1,10 +1,10 @@
-package com.example.azimovTemplate.Models;
+package com.example.azimovTemplate.Models.Tables;
 
-import com.example.azimovTemplate.Models.User.CompanyProfileModel;
+import com.example.azimovTemplate.Models.Tables.Steck;
+import com.example.azimovTemplate.Models.Tables.User.CompanyProfileModel;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,11 +18,17 @@ public class VacancyModel {
     private String name;
     private String description;
     private String amount;
-
+    private String experience;
     private String workingSchedule;
 
-    @OneToMany(mappedBy = "name", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy  = "name", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Steck> steck;
+
+    private boolean isGeneratedTest;
+
+    private long testId;
+
+    private boolean isSteckVerefied;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_information_id")

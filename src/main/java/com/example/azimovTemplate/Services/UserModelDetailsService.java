@@ -1,12 +1,11 @@
 package com.example.azimovTemplate.Services;
 
-import com.example.azimovTemplate.Models.User.UserModel;
-import com.example.azimovTemplate.Models.User.UserModelDetails;
-import com.example.azimovTemplate.Models.User.UsersProfile;
+import com.example.azimovTemplate.Models.Tables.User.UserModel;
+import com.example.azimovTemplate.Models.Tables.User.UserModelDetails;
+import com.example.azimovTemplate.Models.Tables.User.UsersProfile;
 import com.example.azimovTemplate.Services.Reprositories.UserModelReprository;
 import com.example.azimovTemplate.Services.Reprositories.UsersInformationModelReprository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
