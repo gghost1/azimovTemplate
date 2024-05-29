@@ -13,12 +13,14 @@ public class CompanyProfileModel {
 
     private int score;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @MapsId
-//    private UserModel user;
-
     @Column(unique = true)
     private String Inn;
     private String description;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    private UserModel user;
+
+
 
 }

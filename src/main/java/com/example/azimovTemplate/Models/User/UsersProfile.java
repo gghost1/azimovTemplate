@@ -13,7 +13,6 @@ public class UsersProfile {
 
     private int score;
 
-    @Setter
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     private UserModel user;

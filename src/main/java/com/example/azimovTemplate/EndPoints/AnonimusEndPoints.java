@@ -1,12 +1,18 @@
 package com.example.azimovTemplate.EndPoints;
 
 
+import com.example.azimovTemplate.Models.Steck;
+import com.example.azimovTemplate.Models.User.CompanyProfileModel;
 import com.example.azimovTemplate.Models.User.UserModel;
+import com.example.azimovTemplate.Models.User.UsersProfile;
+import com.example.azimovTemplate.Models.VacancyModel;
 import com.example.azimovTemplate.Services.DbConnection;
+import com.example.azimovTemplate.Services.Reprositories.*;
 import com.example.azimovTemplate.Services.Security.RegistrationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -74,8 +82,6 @@ public class AnonimusEndPoints {
         response.addCookie(registration.setCookieToken(user.getName()));
         return new ResponseEntity(HttpStatus.OK);
     }
-
-
 
     @GetMapping("/home")
     public ModelAndView homePage() {

@@ -42,7 +42,7 @@ public class SecurityConfig {
         return http.csrf(csrg -> csrg.disable())
                 .authorizeRequests(auth -> auth
                         .requestMatchers("/register", "/", "/auth", "/welcomePage.html", "/registerPage.html", "/loginPage.html","/verificationPage.html").anonymous()
-                        .requestMatchers("/register", "/authen", "/register/{code}").anonymous()
+                        .requestMatchers("/register", "/authen", "/register/{code}", "/createUser").anonymous()
                         .requestMatchers("/home").authenticated()
                         .requestMatchers("/*").authenticated()
                         .requestMatchers("/home/**").authenticated()

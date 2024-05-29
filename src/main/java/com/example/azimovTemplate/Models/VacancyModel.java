@@ -4,11 +4,15 @@ import com.example.azimovTemplate.Models.User.CompanyProfileModel;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "vacancies")
 public class VacancyModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String name;
@@ -17,11 +21,11 @@ public class VacancyModel {
 
     private String workingSchedule;
 
-    private String[] steck;
+    @OneToMany(mappedBy = "name", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Steck> steck;
 
-
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @MapsId
-//    private CompanyProfileModel company;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_information_id")
+    private CompanyProfileModel company;
 
 }
