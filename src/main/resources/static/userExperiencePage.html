@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Experience</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1 id="er"></h1>
+<form id="registrationForm">
+    <label for="workExperience">Work Experience:</label>
+    <input type="workExperience" id="workExperience" name="workExperience" required><br>
+    <button type="submit">Add Work Experience</button>
+</form>
+
+<script>
+    $('#registrationForm').on('submit', function(e) {
+
+        $.ajax({
+            type: "POST",
+            url: "/addWorkExperience",
+            contentType: "application/json",
+            data: JSON.stringify(user),
+            success: function(response) {
+                window.location.href = '/verificationPage.html';
+            },
+            error: function(err) {
+                document.getElementById("er").innerHTML = err.responseText;
+                console.error(err);
+            }
+        });
+    });
+</script>
+</body>
+</html>
