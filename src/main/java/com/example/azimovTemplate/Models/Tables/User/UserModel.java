@@ -3,7 +3,7 @@ package com.example.azimovTemplate.Models.Tables.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
-
+@Data
 @Entity
 @Table(name = "users")
 public class UserModel {

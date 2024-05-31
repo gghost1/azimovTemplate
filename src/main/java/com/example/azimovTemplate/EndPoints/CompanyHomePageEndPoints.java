@@ -33,6 +33,7 @@ public class CompanyHomePageEndPoints {
     VacancyModelReprository vacancyReprository;
     DbConnection connection;
 
+    @SuppressWarnings("rawtypes")
     @PostMapping("/createDescription")
     public ResponseEntity createDescription(@RequestBody String desription, HttpServletRequest request) {
 
@@ -45,7 +46,6 @@ public class CompanyHomePageEndPoints {
         CompanyProfileModel profile = (CompanyProfileModel) companyReprository.findById(user.getId()).orElseThrow();
 
         profile.setDescription(desription);
-
         connection.updateCompanyProfile(profile);
 
         return new ResponseEntity(HttpStatus.OK);

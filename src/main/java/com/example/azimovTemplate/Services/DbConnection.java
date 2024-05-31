@@ -19,19 +19,30 @@ public class DbConnection {
 
     public void addUser(UserModel user) {
         userReprository.save(user);
-        profileReprository.save(new UsersProfile(user));
+        UsersProfile profile = new UsersProfile();
+        profile.setUser(user);
+        userProfileReprository.save(profile);
     }
     public void updateUser(UserModel prevUser, UserModel newUser) {
+        UsersProfile profile = userProfileReprository.findUsersProfileById(prevUser.getId()).orElse(null);
+        userProfileReprository.delete(profile);
         userReprository.delete(prevUser);
         userReprository.save(newUser);
+        userProfileReprository.save(profile);
     }
 
 
 
     public void updateCompanyProfile(CompanyProfileModel profile) {
+        @SuppressWarnings("unchecked")
         CompanyProfileModel prevCompany = (CompanyProfileModel) companyProfileReprository.findById(profile.getId()).orElse(null);
         companyProfileReprository.delete(prevCompany);
         companyProfileReprository.save(profile);
     }
 
+    public void updateUsersProfile(UsersProfile profile) {
+        UsersProfile prevUser = (UsersProfile) userProfileReprository.findById(profile.getId()).orElse(null);
+        userProfileReprository.delete(prevUser);
+        userProfileReprository.save(profile);
+    }
 }

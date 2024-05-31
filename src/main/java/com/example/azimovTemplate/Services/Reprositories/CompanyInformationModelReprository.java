@@ -7,5 +7,4 @@ import java.util.Optional;
 
 public interface CompanyInformationModelReprository extends JpaRepository<CompanyProfileModel, Long> {
     public Optional findById (long id);
-
 }

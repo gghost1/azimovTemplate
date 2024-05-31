@@ -13,6 +13,11 @@ public class UsersProfile {
 
     private int score;
 
+    @Column(unique = true)
+    private String description;
+    private String experience;
+    private String infoForStack;
+
     @Setter
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
