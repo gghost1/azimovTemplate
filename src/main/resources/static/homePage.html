@@ -1,19 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>Home page</h1>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<h1>Home page <span th:text="${user.name}"></span></h1>
 <div>
     <h2>
         <a href="/home/createTest">Create test</a>
         <a href="/logout">Logout</a>
         <a href="/home/addWorkExperience">Work Experience</a>
         <a href="/home/addOwnInfo">About yourself</a>
-        <a href="addWorkingStack">Stack</a>
+        <a href="/addWorkingStack">Stack</a>
     </h2>
 </div>
-</body>
+
 </html>

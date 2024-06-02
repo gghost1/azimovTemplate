@@ -66,6 +66,25 @@ public class RegistrationService {
 
     }
 
+    public void resendCode(HttpServletRequest request) throws Exception {
+        Cookie[] cookies = request.getCookies();
+        String name = security.decodeString(Arrays.stream(cookies).filter(a -> a.getName().equals("token")).findFirst().orElseThrow().getValue());
+        UserModelDetails userDetails = userModelDetailsService.loadUserByUsername(name);
+        UserModel user = userDetails.getUser();
+        if (user.isVerified()) {
+            throw new IllegalArgumentException("You are already verified");
+        }
+        user.setCode(generator.generateVerificationCode());
+
+        mailSender.sendMessage(user.getEmail(),
+                "Verification code",
+                mailSender.generateVerificationText(user.getCode(), user.getName()));
+
+        user.setVerified(false);
+
+        userModelDetailsService.updateUser(user);
+    }
+
     public void verificate(String string, HttpServletRequest request) {
         String name, code;
         if (string.contains("_")) {
@@ -90,6 +109,8 @@ public class RegistrationService {
             } catch (Exception e) {
                 System.out.println(e);
             }
+        } else {
+            throw new IllegalArgumentException("Wrong code");
         }
     }
 

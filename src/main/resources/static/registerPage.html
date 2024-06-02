@@ -36,7 +36,7 @@
             contentType: "application/json",
             data: JSON.stringify(user),
             success: function(response) {
-                window.location.href = '/verificationPage.html';
+                window.location.href = '/verification';
             },
             error: function(err) {
                 document.getElementById("er").innerHTML = err.responseText;

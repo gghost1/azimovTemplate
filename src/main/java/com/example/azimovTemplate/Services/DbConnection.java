@@ -13,22 +13,40 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class DbConnection {
+
     private UserModelReprository userReprository;
     private UsersInformationModelReprository userProfileReprository;
     private CompanyInformationModelReprository companyProfileReprository;
 
     public void addUser(UserModel user) {
         userReprository.save(user);
-        UsersProfile profile = new UsersProfile();
-        profile.setUser(user);
-        userProfileReprository.save(profile);
+        if (!user.isCompany()) {
+            UsersProfile profile = new UsersProfile();
+            profile.setUser(user);
+            userProfileReprository.save(profile);
+        } else {
+            CompanyProfileModel profile = new CompanyProfileModel();
+            profile.setUser(user);
+            companyProfileReprository.save(profile);
+        }
+
     }
     public void updateUser(UserModel prevUser, UserModel newUser) {
-        UsersProfile profile = userProfileReprository.findUsersProfileById(prevUser.getId()).orElse(null);
-        userProfileReprository.delete(profile);
-        userReprository.delete(prevUser);
-        userReprository.save(newUser);
-        userProfileReprository.save(profile);
+        if (newUser.isCompany()) {
+            CompanyProfileModel profile = (CompanyProfileModel) companyProfileReprository.findById(prevUser.getId()).orElse(null);
+            companyProfileReprository.delete(profile);
+            userReprository.delete(prevUser);
+            userReprository.save(newUser);
+            profile.setUser(userReprository.findByName(newUser.getName()).orElseThrow());
+            companyProfileReprository.save(profile);
+        } else {
+            UsersProfile profile = userProfileReprository.findUsersProfileById(prevUser.getId()).orElse(null);
+            userProfileReprository.delete(profile);
+            userReprository.delete(prevUser);
+            userReprository.save(newUser);
+            profile.setUser(userReprository.findByName(newUser.getName()).orElseThrow());
+            userProfileReprository.save(profile);
+        }
     }
 
 

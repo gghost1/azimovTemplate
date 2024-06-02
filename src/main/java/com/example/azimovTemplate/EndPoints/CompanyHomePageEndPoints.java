@@ -8,15 +8,14 @@ import com.example.azimovTemplate.Models.Tables.VacancyModel;
 import com.example.azimovTemplate.Models.Tables.VacancyTestModel;
 import com.example.azimovTemplate.Services.DbConnection;
 import com.example.azimovTemplate.Services.Reprositories.*;
+import com.example.azimovTemplate.Services.Security.SecurityConfig;
+import com.example.azimovTemplate.Services.TemplateEngine;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,12 +25,15 @@ import java.util.List;
 @RequestMapping("/home/")
 @AllArgsConstructor
 public class CompanyHomePageEndPoints {
-    UserModelReprository userReprository;
-    CompanyInformationModelReprository companyReprository;
-    SteckModelReprository steckReprository;
-    VacancyTestModelReprository vacancyTestReprository;
-    VacancyModelReprository vacancyReprository;
-    DbConnection connection;
+    private UserModelReprository userReprository;
+    private CompanyInformationModelReprository companyReprository;
+    private SteckModelReprository steckReprository;
+    private VacancyTestModelReprository vacancyTestReprository;
+    private VacancyModelReprository vacancyReprository;
+    private DbConnection connection;
+    private TemplateEngine engine;
+    private SecurityConfig decoder;
+
 
     @SuppressWarnings("rawtypes")
     @PostMapping("/createDescription")
@@ -39,7 +41,7 @@ public class CompanyHomePageEndPoints {
 
         Cookie[] cookies = request.getCookies();
         String name = Arrays.stream(cookies).filter(a -> a.getName().equals("token")).findFirst().orElseThrow().getValue();
-
+        name = decoder.decodeString(name);
         UserModel user = userReprository.findByName(name).orElseThrow();
         if (!user.isCompany()) return new ResponseEntity(HttpStatus.FORBIDDEN);
 
@@ -54,8 +56,8 @@ public class CompanyHomePageEndPoints {
     @PostMapping("/createVacancy")
     public ResponseEntity createVacancy(@RequestBody VacancyEntity vacancy, HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-//        String name = Arrays.stream(cookies).filter(a -> a.getName().equals("token")).findFirst().orElseThrow().getValue();
-        String name = "dima";
+        String name = Arrays.stream(cookies).filter(a -> a.getName().equals("token")).findFirst().orElseThrow().getValue();
+        name = decoder.decodeString(name);
         UserModel user = userReprository.findByName(name).orElseThrow();
         if (!user.isCompany()) return new ResponseEntity(HttpStatus.FORBIDDEN);
         CompanyProfileModel profile = (CompanyProfileModel) companyReprository.findById(user.getId()).orElseThrow();

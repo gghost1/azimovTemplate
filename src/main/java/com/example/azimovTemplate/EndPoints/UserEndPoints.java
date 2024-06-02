@@ -11,6 +11,8 @@ import com.example.azimovTemplate.Services.Reprositories.UsersInformationModelRe
 import com.example.azimovTemplate.Services.Reprositories.VacancyModelReprository;
 import com.example.azimovTemplate.Services.Reprositories.VacancyTestModelReprository;
 
+import com.example.azimovTemplate.Services.Security.SecurityConfig;
+import com.example.azimovTemplate.Services.TemplateEngine;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -34,13 +36,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 @AllArgsConstructor
 public class UserEndPoints {
 
-    UserModelReprository userReprository;
-    UsersInformationModelReprository usersReprository;
-    SteckModelReprository steckReprository;
-    VacancyTestModelReprository vacancyTestReprository;
-    VacancyModelReprository vacancyReprository;
-    DbConnection connection;
-
+    private TemplateEngine engine;
+    private UserModelReprository userReprository;
+    private UsersInformationModelReprository usersReprository;
+    private SteckModelReprository steckReprository;
+    private VacancyTestModelReprository vacancyTestReprository;
+    private VacancyModelReprository vacancyReprository;
+    private DbConnection connection;
+    private SecurityConfig decoder;
     // @GetMapping("/addWorkExperience")
     // public ModelAndView sendAnswerPage() {
     //     return new ModelAndView("redirect:/userExperiencePage.html");
@@ -52,7 +55,7 @@ public class UserEndPoints {
 
         Cookie[] cookies = request.getCookies();
         String name = Arrays.stream(cookies).filter(a -> a.getName().equals("token")).findFirst().orElseThrow().getValue();
-
+        name = decoder.decodeString(name);
         UserModel user = userReprository.findByName(name).orElseThrow();
         if (user.isCompany()) return new ResponseEntity(HttpStatus.FORBIDDEN);
 
@@ -70,7 +73,7 @@ public class UserEndPoints {
         
         Cookie[] cookies = request.getCookies();
         String name = Arrays.stream(cookies).filter(a -> a.getName().equals("token")).findFirst().orElseThrow().getValue();
-
+        name = decoder.decodeString(name);
         UserModel user = userReprository.findByName(name).orElseThrow();
         if (user.isCompany()) return new ResponseEntity(HttpStatus.FORBIDDEN);
 
@@ -87,7 +90,7 @@ public class UserEndPoints {
     public ResponseEntity postMethodName(@RequestBody String infoForStack, HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         String name = Arrays.stream(cookies).filter(a -> a.getName().equals("token")).findFirst().orElseThrow().getValue();
-        
+        name = decoder.decodeString(name);
         UserModel user = userReprository.findByName(name).orElseThrow();
         if (user.isCompany()) return new ResponseEntity(HttpStatus.FORBIDDEN);
 
