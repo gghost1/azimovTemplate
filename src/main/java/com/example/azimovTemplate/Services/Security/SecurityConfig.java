@@ -71,10 +71,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    public String encodeString(String string) {
-        return Base64.getEncoder().encodeToString(string.getBytes());
-    }
-    public String decodeString(String string) {
-        return new String(Base64.getDecoder().decode(string));
-    }
 }

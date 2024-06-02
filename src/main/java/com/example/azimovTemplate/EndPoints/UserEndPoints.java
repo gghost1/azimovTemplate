@@ -12,6 +12,7 @@ import com.example.azimovTemplate.Services.Reprositories.VacancyModelReprository
 import com.example.azimovTemplate.Services.Reprositories.VacancyTestModelReprository;
 
 import com.example.azimovTemplate.Services.Security.SecurityConfig;
+import com.example.azimovTemplate.Services.Security.Utils;
 import com.example.azimovTemplate.Services.TemplateEngine;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,71 +37,59 @@ import org.springframework.web.bind.annotation.RequestBody;
 @AllArgsConstructor
 public class UserEndPoints {
 
-    private TemplateEngine engine;
-    private UserModelReprository userReprository;
-    private UsersInformationModelReprository usersReprository;
     private SteckModelReprository steckReprository;
-    private VacancyTestModelReprository vacancyTestReprository;
-    private VacancyModelReprository vacancyReprository;
-    private DbConnection connection;
-    private SecurityConfig decoder;
+    private DbConnection dbConnection;
+    private Utils utils;
+
     // @GetMapping("/addWorkExperience")
     // public ModelAndView sendAnswerPage() {
     //     return new ModelAndView("redirect:/userExperiencePage.html");
     // }
 
-    @SuppressWarnings("rawtypes")
     @PostMapping("/addDescription")
     public ResponseEntity createDescription(@RequestBody String desription, HttpServletRequest request) {
 
-        Cookie[] cookies = request.getCookies();
-        String name = Arrays.stream(cookies).filter(a -> a.getName().equals("token")).findFirst().orElseThrow().getValue();
-        name = decoder.decodeString(name);
-        UserModel user = userReprository.findByName(name).orElseThrow();
+        String name = utils.getUserName(request);
+        UserModel user = dbConnection.findUserByName(name);
+
         if (user.isCompany()) return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        UsersProfile profile = (UsersProfile) usersReprository.findById(user.getId()).orElseThrow();
+        UsersProfile profile = dbConnection.findUserProfileById(user.getId());
 
         profile.setDescription(desription);
-        connection.updateUsersProfile(profile);
+        dbConnection.updateUsersProfile(profile);
 
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @SuppressWarnings("rawtypes")
     @PostMapping("/addWorkExperience")
     public ResponseEntity addExperience(@RequestBody String experience, HttpServletRequest request) {
         
-        Cookie[] cookies = request.getCookies();
-        String name = Arrays.stream(cookies).filter(a -> a.getName().equals("token")).findFirst().orElseThrow().getValue();
-        name = decoder.decodeString(name);
-        UserModel user = userReprository.findByName(name).orElseThrow();
+        String name = utils.getUserName(request);
+        UserModel user = dbConnection.findUserByName(name);
+
         if (user.isCompany()) return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        UsersProfile profile = (UsersProfile) usersReprository.findById(user.getId()).orElseThrow();
+        UsersProfile profile = dbConnection.findUserProfileById(user.getId());
 
         profile.setDescription(experience);
-        connection.updateUsersProfile(profile);
+        dbConnection.updateUsersProfile(profile);
 
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @SuppressWarnings("rawtypes")
     @PostMapping("/addStack")
     public ResponseEntity postMethodName(@RequestBody String infoForStack, HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        String name = Arrays.stream(cookies).filter(a -> a.getName().equals("token")).findFirst().orElseThrow().getValue();
-        name = decoder.decodeString(name);
-        UserModel user = userReprository.findByName(name).orElseThrow();
+
+        String name = utils.getUserName(request);
+        UserModel user = dbConnection.findUserByName(name);
+
         if (user.isCompany()) return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        UsersProfile profile = (UsersProfile) usersReprository.findById(user.getId()).orElseThrow();
+        UsersProfile profile = dbConnection.findUserProfileById(user.getId());
         profile.setInfoForStack(infoForStack);
-        connection.updateUsersProfile(profile);
+        dbConnection.updateUsersProfile(profile);
 
         return new ResponseEntity(HttpStatus.OK);
     }
-    
-
-
 }

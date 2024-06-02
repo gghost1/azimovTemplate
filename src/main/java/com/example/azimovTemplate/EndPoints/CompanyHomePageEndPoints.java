@@ -9,6 +9,7 @@ import com.example.azimovTemplate.Models.Tables.VacancyTestModel;
 import com.example.azimovTemplate.Services.DbConnection;
 import com.example.azimovTemplate.Services.Reprositories.*;
 import com.example.azimovTemplate.Services.Security.SecurityConfig;
+import com.example.azimovTemplate.Services.Security.Utils;
 import com.example.azimovTemplate.Services.TemplateEngine;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,42 +26,37 @@ import java.util.List;
 @RequestMapping("/home/")
 @AllArgsConstructor
 public class CompanyHomePageEndPoints {
-    private UserModelReprository userReprository;
-    private CompanyInformationModelReprository companyReprository;
-    private SteckModelReprository steckReprository;
-    private VacancyTestModelReprository vacancyTestReprository;
-    private VacancyModelReprository vacancyReprository;
-    private DbConnection connection;
-    private TemplateEngine engine;
-    private SecurityConfig decoder;
+
+    private DbConnection dbConnection;
+    private Utils utils;
 
 
     @SuppressWarnings("rawtypes")
     @PostMapping("/createDescription")
     public ResponseEntity createDescription(@RequestBody String desription, HttpServletRequest request) {
 
-        Cookie[] cookies = request.getCookies();
-        String name = Arrays.stream(cookies).filter(a -> a.getName().equals("token")).findFirst().orElseThrow().getValue();
-        name = decoder.decodeString(name);
-        UserModel user = userReprository.findByName(name).orElseThrow();
+        String name = utils.getUserName(request);
+        UserModel user = dbConnection.findUserByName(name);
+
         if (!user.isCompany()) return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        CompanyProfileModel profile = (CompanyProfileModel) companyReprository.findById(user.getId()).orElseThrow();
+        CompanyProfileModel profile = dbConnection.findCompanyProfileById(user.getId());
 
         profile.setDescription(desription);
-        connection.updateCompanyProfile(profile);
+        dbConnection.updateCompanyProfile(profile);
 
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/createVacancy")
     public ResponseEntity createVacancy(@RequestBody VacancyEntity vacancy, HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        String name = Arrays.stream(cookies).filter(a -> a.getName().equals("token")).findFirst().orElseThrow().getValue();
-        name = decoder.decodeString(name);
-        UserModel user = userReprository.findByName(name).orElseThrow();
+
+        String name = utils.getUserName(request);
+        UserModel user = dbConnection.findUserByName(name);
+
         if (!user.isCompany()) return new ResponseEntity(HttpStatus.FORBIDDEN);
-        CompanyProfileModel profile = (CompanyProfileModel) companyReprository.findById(user.getId()).orElseThrow();
+
+        CompanyProfileModel profile = dbConnection.findCompanyProfileById(user.getId());
 
         VacancyModel vacancyModel = new VacancyModel();
         vacancyModel.setCompany(profile);
@@ -72,15 +68,15 @@ public class CompanyHomePageEndPoints {
         vacancyModel.setSteckVerefied(!vacancy.getIsSteckVerefied().isEmpty());
 
         List<Steck> stecks = new ArrayList<>();
-        vacancy.getSteck().stream().forEach(a-> stecks.add((Steck) steckReprository.getByName(a).orElseThrow()));
+        vacancy.getSteck().stream().forEach(a-> stecks.add(dbConnection.findSteckByName(a)));
         vacancyModel.setSteck(stecks);
 
         // generateTestOrCreateOwnTest
         VacancyTestModel testModel = new VacancyTestModel();
-        vacancyTestReprository.save(testModel);
+        dbConnection.addVacancyTest(testModel);
         vacancyModel.setTestId(testModel.getId());
 
-        vacancyReprository.save(vacancyModel);
+        dbConnection.addVacancy(vacancyModel);
 
         return new ResponseEntity(HttpStatus.OK);
     }

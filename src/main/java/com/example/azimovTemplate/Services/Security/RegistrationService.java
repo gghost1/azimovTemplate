@@ -28,16 +28,14 @@ import java.util.regex.Pattern;
 @Service
 @AllArgsConstructor
 public class RegistrationService {
-    @Autowired
+
     private AuthenticationManager authenticationManager;
-    @Autowired
-    private UserModelDetailsService userModelDetailsService;
-    @Autowired
     private UserModelReprository reprository;
+    private UserModelDetailsService userModelDetailsService;
     private DbConnection dbConnection;
     private Generator generator;
     private SenderEmails mailSender;
-    private SecurityConfig security;
+    private Utils utils;
 
 
     public void regiter(UserModel user, String password) {
@@ -66,14 +64,15 @@ public class RegistrationService {
 
     }
 
-    public void resendCode(HttpServletRequest request) throws Exception {
-        Cookie[] cookies = request.getCookies();
-        String name = security.decodeString(Arrays.stream(cookies).filter(a -> a.getName().equals("token")).findFirst().orElseThrow().getValue());
-        UserModelDetails userDetails = userModelDetailsService.loadUserByUsername(name);
-        UserModel user = userDetails.getUser();
+    public void resendCode(HttpServletRequest request) {
+        String name = utils.getUserName(request);
+
+        UserModel user = dbConnection.findUserByName(name);
+
         if (user.isVerified()) {
             throw new IllegalArgumentException("You are already verified");
         }
+
         user.setCode(generator.generateVerificationCode());
 
         mailSender.sendMessage(user.getEmail(),
@@ -82,7 +81,7 @@ public class RegistrationService {
 
         user.setVerified(false);
 
-        userModelDetailsService.updateUser(user);
+        dbConnection.updateUser(user);
     }
 
     public void verificate(String string, HttpServletRequest request) {
@@ -90,22 +89,22 @@ public class RegistrationService {
         if (string.contains("_")) {
             String buffer[] = string.split("_", 2);
             code = buffer[0];
-            name = security.decodeString(buffer[1]);
+            name = utils.decodeString(buffer[1]);
         } else {
             code = string;
-            Cookie[] cookies = request.getCookies();
-            name = security.decodeString(Arrays.stream(cookies).filter(a -> a.getName().equals("token")).findFirst().orElseThrow().getValue());
+            name = utils.getUserName(request);
         }
-        UserModelDetails userDetails = userModelDetailsService.loadUserByUsername(name);
-        if (userDetails.isVerified()) {
+        UserModel user = dbConnection.findUserByName(name);
+
+        if (user.isVerified()) {
             throw new IllegalArgumentException("You are already verified");
         }
-        if (userDetails.getCode().equals(code)) {
-            UserModel user = userDetails.getUser();
+
+        if (user.getCode().equals(code)) {
             user.setVerified(true);
             user.setCode("");
             try {
-                userModelDetailsService.updateUser(user);
+                dbConnection.updateUser(user);
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -151,7 +150,7 @@ public class RegistrationService {
     }
 
     public Cookie setCookieToken(String token) {
-        token = security.encodeString(token);
+        token = utils.encodeString(token);
         Cookie cookie = new Cookie("token", token);
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
