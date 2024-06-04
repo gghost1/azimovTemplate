@@ -11,8 +11,6 @@ public class UsersProfile {
     @Id
     private long id;
 
-    private int score;
-
     @Column(unique = true)
     private String description;
     private String experience;

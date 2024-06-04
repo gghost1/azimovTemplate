@@ -30,8 +30,7 @@ public class VacancyModel {
 
     private boolean isSteckVerefied;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_information_id")
-    private CompanyProfileModel company;
+    @Column(nullable = false)
+    private long companyId;
 
 }

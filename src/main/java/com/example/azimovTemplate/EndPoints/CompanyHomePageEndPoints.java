@@ -59,7 +59,7 @@ public class CompanyHomePageEndPoints {
         CompanyProfileModel profile = dbConnection.findCompanyProfileById(user.getId());
 
         VacancyModel vacancyModel = new VacancyModel();
-        vacancyModel.setCompany(profile);
+        vacancyModel.setCompanyId(profile.getId());
         vacancyModel.setName(vacancy.getName());
         vacancyModel.setAmount(vacancy.getAmount());
         vacancyModel.setExperience(vacancy.getExperience());

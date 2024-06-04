@@ -11,8 +11,6 @@ public class CompanyProfileModel {
     @Id
     private long id;
 
-    private int score;
-
     @Column(unique = true)
     private String Inn;
     private String description;

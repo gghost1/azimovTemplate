@@ -41,11 +41,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrg -> csrg.disable())
                 .authorizeRequests(auth -> auth
-                        .requestMatchers("/register", "/", "/auth", "/welcomePage.html", "/registerPage.html", "/loginPage.html","/verificationPage.html").anonymous()
+                        .requestMatchers("/register", "/", "/auth", "/welcomePage.html", "/registerPage.html", "/loginPage.html","/verificationPage.html", "/newsPage.html").anonymous()
                         .requestMatchers("/register", "/authen", "/register/{code}").anonymous()
                         .requestMatchers("/home").authenticated()
                         .requestMatchers("/*").authenticated()
                         .requestMatchers("/home/**").authenticated()
+                        .requestMatchers("/news","/newsPage").permitAll()
                 )
                 .formLogin(formLogin -> formLogin.loginPage("/auth").defaultSuccessUrl("/home"))
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))

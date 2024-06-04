@@ -1,19 +1,25 @@
 package com.example.azimovTemplate.EndPoints;
 
 
+import com.example.azimovTemplate.Models.Tables.NewsModel;
 import com.example.azimovTemplate.Models.Tables.User.UserModel;
 import com.example.azimovTemplate.Services.DbConnection;
+import com.example.azimovTemplate.Services.Reprositories.NewsModelReprository;
 import com.example.azimovTemplate.Services.Security.Utils;
 import com.example.azimovTemplate.Services.Security.RegistrationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 @RestController
@@ -74,6 +80,19 @@ public class AnonimusEndPoints {
         registration.autoLogin(user, pass, request);
         response.addCookie(registration.setCookieToken(user.getName()));
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    private NewsModelReprository news;
+    @GetMapping("/news")
+    public ModelAndView anonimousNewsPage() {
+        ModelAndView model = new ModelAndView("newsPage");
+        List<NewsModel> newsModels = news.getAllByOrderByScoreDescDateDesc();
+        List<String> a = new ArrayList<>();
+        a.add("1");
+        a.add("2");
+        model.addObject("newsColl",newsModels);
+
+        return model;
     }
 
     @GetMapping("/home")

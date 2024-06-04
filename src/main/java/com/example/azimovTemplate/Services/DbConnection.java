@@ -1,5 +1,6 @@
 package com.example.azimovTemplate.Services;
 
+import com.example.azimovTemplate.Models.Tables.NewsModel;
 import com.example.azimovTemplate.Models.Tables.Steck;
 import com.example.azimovTemplate.Models.Tables.User.CompanyProfileModel;
 import com.example.azimovTemplate.Models.Tables.User.UserModel;
@@ -21,8 +22,12 @@ public class DbConnection {
     private SteckModelReprository steckReprository;
     private VacancyTestModelReprository vacancyTestReprository;
     private VacancyModelReprository vacancyReprository;
+    private NewsModelReprository newsReprository;
 
 
+    public NewsModel addNews(NewsModel news) {
+        return newsReprository.save(news);
+    }
     public VacancyModel addVacancy(VacancyModel vacancy) {
         return vacancyReprository.save(vacancy);
     }

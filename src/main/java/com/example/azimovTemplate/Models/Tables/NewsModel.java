@@ -1,9 +1,9 @@
 package com.example.azimovTemplate.Models.Tables;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.example.azimovTemplate.Models.Tables.User.CompanyProfileModel;
+import com.example.azimovTemplate.Models.Tables.User.UserModel;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
@@ -18,6 +18,9 @@ public class NewsModel {
     private String text;
 
     private Date date;
+    private int score;
 
+    @Column(nullable = false)
+    private long userId;
 
 }

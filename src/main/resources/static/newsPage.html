@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>User Registration</title>
+</head>
+<body>
+<div th:each="n: ${newsColl}">
+    <span th:text="${n.text}"/>
+    <span th:text="${n.score}"/>
+</div>
+</body>
+
+</html>

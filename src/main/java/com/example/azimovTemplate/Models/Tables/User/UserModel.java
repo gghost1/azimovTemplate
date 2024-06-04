@@ -21,6 +21,7 @@ public class UserModel {
     private String code;
     private boolean isVerified;
     private boolean isCompany = false;
+    private int score;
 
     // here token should be saved(if user will create
     // test and the answer will be mush later token will be updated)
