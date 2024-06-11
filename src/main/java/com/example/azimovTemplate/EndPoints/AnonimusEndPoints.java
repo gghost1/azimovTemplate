@@ -88,8 +88,6 @@ public class AnonimusEndPoints {
         ModelAndView model = new ModelAndView("newsPage");
         List<NewsModel> newsModels = news.getAllByOrderByScoreDescDateDesc();
         List<String> a = new ArrayList<>();
-        a.add("1");
-        a.add("2");
         model.addObject("newsColl",newsModels);
 
         return model;

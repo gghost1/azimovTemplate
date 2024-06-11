@@ -2,6 +2,10 @@ package com.example.azimovTemplate.Services.Security;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+
+import org.hibernate.annotations.Bag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -10,6 +14,7 @@ import java.util.Base64;
 
 @Configuration
 public class Utils {
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public String encodeString(String string) {
