@@ -66,12 +66,12 @@ public class AnonimusEndPoints {
     public ModelAndView verification(@PathVariable String code, HttpServletResponse response, HttpServletRequest request) {
         registration.verificate(code, request);
 
-        return new ModelAndView("login");
+        return new ModelAndView("loginPage");
     }
 
     @GetMapping("/auth")
     public ModelAndView loginPage() { // will return some page
-        return new ModelAndView("login");
+        return new ModelAndView("loginPage");
     }
     @PostMapping("/authen")
     public ResponseEntity auth(@RequestBody UserModel user, HttpServletResponse response, HttpServletRequest request) throws IOException {

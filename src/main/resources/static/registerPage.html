@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Зарегестрироваться</title>
+    <link rel="stylesheet" href="./styles/auth.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <div class="menu-center">
+            <a href="#">вакансии</a>
+            <a href="#">новости</a>
+            <a href="#">чаты</a>
+            <a href="#">стажировки</a>
+        </div>
+        <div class="menu-right">
+            <a href="#" class="user-icon">
+                <p style="font-size: 12px;">войти/зарегестрироваться</p>
+                <img src="images/usericon.png" alt="User Icon">
+            </a>
+        </div>
+        <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+    <div class="mobile-menu">
+        <a href="#" class="user-icon">
+            <img src="images/usericon.png" alt="User Icon" style="width: 60px;">
+        </a>
+        <a href="#" style="margin-top: 50px;">вакансии</a>
+        <a href="#">новости</a>
+        <a href="#">чаты</a>
+        <a href="#">стажировки</a>
+    </div>
+</header>
+<div style="width: 35%; height: 3px; background: #007bff; border-radius: 50px;"></div>
+<div class="formWrapper">
+    <div class="container">
+        <form id="FormForRegistration">
+            <h2>Регистрация</h2>
+
+            <label for="userType">Тип пользователя:</label>
+            <select id="userType" name="userType" required>
+                <option value="user">Обычный пользователь</option>
+                <option value="company">Компания</option>
+            </select>
+
+            <label for="email">Электронная почта:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="phone">Телефон:</label>
+            <input type="phone" id="phone" name="phone" required>
+
+            <label for="name">Имя пользователя или название компании:</label>
+            <input type="name" id="name" name="name" required>
+
+            <div id="innField" style="display: none;">
+                <label for="inn">ИНН компании:</label>
+                <input type="inn" id="inn" name="inn">
+            </div>
+
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+    </div>
+</div>
+<script>
+    $('#FormForRegistration').on('submit', function(e) {
+            e.preventDefault();
+            var user = {
+                email: $('#email').val(),
+                phone: $('#phone').val(),
+                name: $('#name').val(),
+                password: $('#password').val(),
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/register",
+                contentType: "application/json",
+                data: JSON.stringify(user),
+                success: function(response) {
+                    window.location.href = '/verification';
+                },
+                error: function(err) {
+                    document.getElementById("er").innerHTML = err.responseText;
+                    console.error(err);
+                }
+            });
+        });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        menuToggle.addEventListener('click', function() {
+            menuToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+    });
+
+    const userTypeSelect = document.getElementById('userType');
+    const innField = document.getElementById('innField');
+
+    userTypeSelect.addEventListener('change', () => {
+        if (userTypeSelect.value === 'company') {
+            innField.style.display = 'block';
+        } else {
+            innField.style.display = 'none';
+        }
+    });
+</script>
+<style>
+    html, body {
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
+}
+
+.formWrapper {
+    width: 100%;
+    height: calc(100vh - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+a, header {color: black}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    color: black;
+}
+
+.menu-center {
+    display: flex;
+    gap: 20px;
+}
+
+.menu-center a,
+.menu-right a, .menu-toggle a, .mobile-menu a{
+    color: #000000;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.menu-right .user-icon img {
+    width: 24px;
+    height: 24px;
+}
+.user-icon {
+    display: flex;align-items: center;gap: 10px;
+}
+
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    position: relative;
+    width: 25px;
+    height: 18px;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #000000;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-toggle.active span:nth-child(1) {
+    transform: translateY(7.5px) rotate(45deg);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: translateY(-7.5px) rotate(-45deg);
+}
+
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+@media (max-width: 960px) {
+    .menu-center,
+    .menu-right {
+        display: none;
+    }
+    .menu-toggle {
+        display: flex;
+    }
+}
+
+@media (max-width: 960px) {
+    .mobile-menu.active {
+        display: flex;
+    }
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input, select, button {
+    margin-bottom: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+}
+</style>
+</body>
+</html>

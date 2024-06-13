@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Войти</title>
-    <link rel="stylesheet" href="/styles/login.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
 </head>
 <body>
@@ -44,7 +41,7 @@
 <div style="width: 35%; height: 3px; background: #007bff; border-radius: 50px;"></div>
 <div class="loginWrapper">
     <div class="container">
-        <form id="loginForm">
+        <form id="FormForAuth">
             <h2>Войти</h2>
 
             <label for="name">Ваше имя:</label>
@@ -56,12 +53,12 @@
             <button type='submit'>Войти</button>
         </form>
         <p>Нет аккаунта?
-            <a href="auth.html" style="color: #007bff">Зарегестирироваться</a>
+            <a href="register" style="color: #007bff">Зарегестирироваться</a>
         </p>
     </div>
 </div>
 <script>
-    $('#registrationForm').on('submit', function(e) {
+    $('#FormForAuth').on('submit', function(e) {
         e.preventDefault();
         var user = {
             name: $('#name').val(),
