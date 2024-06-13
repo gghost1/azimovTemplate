@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{vacancy from context}}</title>
+  <link rel="stylesheet" href="./styles/vacancy.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+  <nav class="navbar">
+    <div class="menu-center">
+      <a href="#">вакансии</a>
+      <a href="#">новости</a>
+      <a href="#">чаты</a>
+      <a href="#">стажировки</a>
+    </div>
+    <div class="menu-right">
+      <a href="#" class="user-icon">
+        <p style="font-size: 12px;">войти/зарегестрироваться</p>
+        <img src="images/usericon.png" alt="User Icon">
+      </a>
+    </div>
+    <div class="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+  <div class="mobile-menu">
+    <a href="#" class="user-icon">
+      <img src="images/usericon.png" alt="User Icon" style="width: 60px;">
+    </a>
+    <a href="#" style="margin-top: 50px;">вакансии</a>
+    <a href="#">новости</a>
+    <a href="#">чаты</a>
+    <a href="#">стажировки</a>
+  </div>
+</header>
+<div style="width: 35%; height: 3px; background: #007bff; border-radius: 50px;"></div>
+<div class="header">
+  <h1>Детали вакансии</h1>
+</div>
+<div class="container">
+  <div class="job-detail">
+    <h2 id="job-title">Разработчик Frontend</h2>
+    <p id="job-short-desc">Краткое описание: Мы ищем опытного frontend-разработчика для работы над крупными веб-проектами.</p>
+    <p id="job-long-desc">Полное описание:
+      В роли frontend-разработчика вы будете работать над созданием и оптимизацией пользовательских интерфейсов для наших веб-приложений. Требуются знания HTML, CSS, JavaScript, а также опыт работы с современными фреймворками, такими как React или Vue.js. Вы будете работать в команде профессионалов, стремящихся к созданию высококачественных и удобных для пользователя приложений.
+    </p>
+  </div>
+  <div class="button-group">
+    <a href="javascript:history.back()" class="back-button">Назад к вакансиям</a>
+    <button onclick="applyForJob()">Откликнуться на вакансию</button>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mobileMenu = document.querySelector('.mobile-menu');
+
+    menuToggle.addEventListener('click', function() {
+      menuToggle.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+    });
+  });
+</script>
+</body>
+</html>

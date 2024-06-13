@@ -1,0 +1,131 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
+}
+
+.formWrapper {
+    width: 100%;
+    height: calc(100vh - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+a, header {color: black}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    color: black;
+}
+
+.menu-center {
+    display: flex;
+    gap: 20px;
+}
+
+.menu-center a,
+.menu-right a, .menu-toggle a, .mobile-menu a{
+    color: #000000;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.menu-right .user-icon img {
+    width: 24px;
+    height: 24px;
+}
+.user-icon {
+    display: flex;align-items: center;gap: 10px;
+}
+
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    position: relative;
+    width: 25px;
+    height: 18px;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #000000;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-toggle.active span:nth-child(1) {
+    transform: translateY(7.5px) rotate(45deg);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: translateY(-7.5px) rotate(-45deg);
+}
+
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+@media (max-width: 960px) {
+    .menu-center,
+    .menu-right {
+        display: none;
+    }
+    .menu-toggle {
+        display: flex;
+    }
+}
+
+@media (max-width: 960px) {
+    .mobile-menu.active {
+        display: flex;
+    }
+}
+
+.header {
+    color: black;
+    padding: 15px;
+    text-align: left;
+}
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+.news-detail h2 {
+    color: #333;
+}
+.news-detail p {
+    color: #555;
+    line-height: 1.6;
+}
+.back-button {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+.back-button:hover {
+    background-color: #0056b3;
+}

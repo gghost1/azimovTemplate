@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Личный кабинет</title>
+  <link rel="stylesheet" href="./styles/personal.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+  <nav class="navbar">
+    <div class="menu-center">
+      <a href="#">вакансии</a>
+      <a href="#">новости</a>
+      <a href="#">чаты</a>
+      <a href="#">стажировки</a>
+    </div>
+    <div class="menu-right">
+      <a href="#" class="user-icon">
+        <p style="font-size: 12px;">войти/зарегестрироваться</p>
+        <img src="images/usericon.png" alt="User Icon">
+      </a>
+    </div>
+    <div class="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+  <div class="mobile-menu">
+    <a href="#" class="user-icon">
+      <img src="images/usericon.png" alt="User Icon" style="width: 60px;">
+    </a>
+    <a href="#" style="margin-top: 50px;">вакансии</a>
+    <a href="#">новости</a>
+    <a href="#">чаты</a>
+    <a href="#">стажировки</a>
+  </div>
+</header>
+<div style="width: 35%; height: 3px; background: #007bff; border-radius: 50px;"></div>
+<div class="wrapper">
+  <div class="container" style="border-radius: 24px; border: 1px solid black; margin-top: 50px;">
+    <h2>Личный кабинет</h2>
+    <div class="user-info">
+      <p>Имя пользователя: <strong>Иван Иванов</strong></p>
+      <p>Почта: <strong>ivan@example.com</strong></p>
+      <p>Телефон: <strong>+7 (123) 456-78-90</strong></p>
+      <p>ИНН: <strong>123456789012</strong></p>
+    </div>
+    <div class="form-group">
+      <label for="about">Информация о себе:</label>
+      <textarea id="about" rows="4" placeholder="Расскажите о себе..."></textarea>
+      <button onclick="saveAbout()">Сохранить</button>
+    </div>
+    <div class="form-group">
+      <label for="stack">Технологический стек:</label>
+      <textarea type="text" id="stack" rows="4" placeholder="Ваш стек..."></textarea>
+      <button onclick="saveStack()">Сохранить</button>
+    </div>
+    <button onclick="saveStack()" id="findButton">Найти работу</button>
+  </div>
+  <div class="containers">
+    <div class="container">
+      <h2>Разместить новость</h2>
+      <div class="form-group">
+        <label for="news-title">Название:</label>
+        <input type="text" id="news-title" placeholder="Введите название...">
+      </div>
+      <div class="form-group">
+        <label for="news-short-desc">Краткое описание:</label>
+        <input type="text" id="news-short-desc" placeholder="Введите краткое описание...">
+      </div>
+      <div class="form-group">
+        <label for="news-long-desc">Подробное описание:</label>
+        <textarea id="news-long-desc" rows="4" placeholder="Введите подробное описание..."></textarea>
+      </div>
+      <div class="form-group">
+        <label for="news-images">Изображения:</label>
+        <input type="file" id="news-images" multiple>
+      </div>
+      <button onclick="submitNews()">Разместить новость</button>
+    </div>
+
+    <div class="container">
+      <h2>Разместить вакансию</h2>
+      <div class="form-group">
+        <label for="job-title">Название:</label>
+        <input type="text" id="job-title" placeholder="Введите название...">
+      </div>
+      <div class="form-group">
+        <label for="job-short-desc">Краткое описание:</label>
+        <input type="text" id="job-short-desc" placeholder="Введите краткое описание...">
+      </div>
+      <div class="form-group">
+        <label for="job-long-desc">Подробное описание:</label>
+        <textarea id="job-long-desc" rows="4" placeholder="Введите подробное описание..."></textarea>
+      </div>
+      <div class="form-group">
+        <label for="job-images">Изображения:</label>
+        <input type="file" id="job-images" multiple>
+      </div>
+      <button onclick="submitJob()">Разместить вакансию</button>
+    </div>
+  </div>
+</div>
+<footer style="height: 80px;background: #007bff; border-radius: 24px;margin-top: 50px; display: flex; align-items: center; justify-content: center;">
+  <h2 style="color: #ffffff;">Skill Share</h2>
+</footer>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mobileMenu = document.querySelector('.mobile-menu');
+
+    menuToggle.addEventListener('click', function() {
+      menuToggle.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+    });
+  });
+</script>
+</body>
+</html>

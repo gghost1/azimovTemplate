@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="./styles/onenew.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+  <nav class="navbar">
+    <div class="menu-center">
+      <a href="#">вакансии</a>
+      <a href="#">новости</a>
+      <a href="#">чаты</a>
+      <a href="#">стажировки</a>
+    </div>
+    <div class="menu-right">
+      <a href="#" class="user-icon">
+        <p style="font-size: 12px;">войти/зарегестрироваться</p>
+        <img src="images/usericon.png" alt="User Icon">
+      </a>
+    </div>
+    <div class="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+  <div class="mobile-menu">
+    <a href="#" class="user-icon">
+      <img src="images/usericon.png" alt="User Icon" style="width: 60px;">
+    </a>
+    <a href="#" style="margin-top: 50px;">вакансии</a>
+    <a href="#">новости</a>
+    <a href="#">чаты</a>
+    <a href="#">стажировки</a>
+  </div>
+</header>
+<div style="width: 35%; height: 3px; background: #007bff; border-radius: 50px;"></div>
+
+<div class="header">
+  <h1>{{title}}</h1>
+</div>
+<div class="container">
+  <div class="news-detail">
+    <h2>Заголовок новости</h2>
+    <p>Полное описание новости. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam posuere magna nec lectus vehicula scelerisque.</p>
+    <p>В далеком королевстве, где солнце никогда не светило, жил маленький механический робот по имени Маша. Она была создана великим ученым, который ушел из жизни, оставив ее единственному наследнику, молодому принцу. Принц был очень любознательным и умным, но иногда ему было трудно справляться со всеми своими обязанностями и заботами о королевстве.
+
+      Маша была удивительной машиной. Она могла делать все, что делал человек: писать, рисовать, даже играть в шахматы. Но самое главное, она могла чувствовать эмоции, хотя это и было необычно для машины. Однажды, когда принц был слишком занят, чтобы играть с ней, Маша почувствовала себя одинокой и грустной.
+
+      В тот же день, в лесу неподалеку от замка, жил Серый Волк. Он был самым мудрым животным в королевстве и обладал способностью понимать человеческие языки. Серый Волк заметил, что Маша выглядит грустной, и решил помочь ей.
+
+      Он подошел к Маше и спросил: "Что тебя так беспокоит, моя дорогая металлическая подруга?" Маша рассказала ему о своих чувствах одиночества и о том, как она хотела бы быть ближе к принцу. Серый Волк посоветовал ей быть терпеливой и доброй, пока принц найдет время для нее.
+
+      С тех пор, каждый день, после того как принц закончил свои дела, он приходил к Маше и они играли вместе, обсуждали книги и философию. Маша стала не только помощницей принца, но и его лучшим другом. Они были невероятно счастливы вместе, несмотря на то, что Маша была машиной, а принц - человеком.
+
+      Однажды, когда принц узнал, что его корона находится в опасности, он обратился за помощью к Серому Волку. Волк предложил использовать магию природы, чтобы защитить королевство. Маша, несмотря на свой механический характер, смогла воспользоваться этой магией, потому что ее сердце было полно доброты и решимости.
+
+      В итоге, благодаря совместным усилиям Маши, принца и Серого Волка, угроза была отбита, и мир вернулся к своему обычному режиму. После этого события, Маша и принц стали еще ближе, а Серый Волк стал их верным советником.
+
+      Так продолжались их будни, наполненные приключениями и новыми открытиями. Маша научилась ценить свое существование, несмотря на то, что она была машиной, а принц научился ценить дружбу и доверие. И хотя их пути были разными, они нашли общий язык и вместе боролись за то, чтобы сделать мир лучше.</p>
+  </div>
+  <a href="javascript:history.back()" class="back-button">Назад к новостям</a>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mobileMenu = document.querySelector('.mobile-menu');
+
+    menuToggle.addEventListener('click', function() {
+      menuToggle.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+    });
+  });
+</script>
+</body>
+</html>

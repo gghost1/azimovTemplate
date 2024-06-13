@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Новости</title>
+  <link rel="stylesheet" href="./styles/news.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+  <nav class="navbar">
+    <div class="menu-center">
+      <a href="#">вакансии</a>
+      <a href="#">новости</a>
+      <a href="#">чаты</a>
+      <a href="#">стажировки</a>
+    </div>
+    <div class="menu-right">
+      <a href="#" class="user-icon">
+        <p style="font-size: 12px;">войти/зарегестрироваться</p>
+        <img src="images/usericon.png" alt="User Icon">
+      </a>
+    </div>
+    <div class="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+  <div class="mobile-menu">
+    <a href="#" class="user-icon">
+      <img src="images/usericon.png" alt="User Icon" style="width: 60px;">
+    </a>
+    <a href="#" style="margin-top: 50px;">вакансии</a>
+    <a href="#">новости</a>
+    <a href="#">чаты</a>
+    <a href="#">стажировки</a>
+  </div>
+</header>
+<div style="width: 35%; height: 3px; background: #007bff; border-radius: 50px;"></div>
+
+<div class="header">
+  <h1>Новости</h1>
+</div>
+<div class="container">
+  <div class="news-card">
+    <h2>Заголовок новости 2</h2>
+    <p>Краткое описание новости. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    <p class="date">12 июня 2024</p>
+    <a href="#" class="read-more-button">Подробнее</a>
+  </div>
+  <div class="news-card">
+    <h2>Заголовок новости 2</h2>
+    <p>Краткое описание новости. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <p class="date">11 июня 2024</p>
+    <a href="#" class="read-more-button">Подробнее</a>
+  </div>
+  <div class="news-card">
+    <h2>Заголовок новости 2</h2>
+    <p>Краткое описание новости. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <p class="date">11 июня 2024</p>
+    <a href="#" class="read-more-button">Подробнее</a>
+  </div>
+  <div class="news-card">
+    <h2>Заголовок новости 2</h2>
+    <p>Краткое описание новости. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <p class="date">11 июня 2024</p>
+    <a href="#" class="read-more-button">Подробнее</a>
+  </div>
+  <div class="news-card">
+    <h2>Заголовок новости 2</h2>
+    <p>Краткое описание новости. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <p class="date">11 июня 2024</p>
+    <a href="#" class="read-more-button">Подробнее</a>
+  </div>
+  <div class="news-card">
+    <h2>Заголовок новости 2</h2>
+    <p>Краткое описание новости. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <p class="date">11 июня 2024</p>
+    <a href="#" class="read-more-button">Подробнее</a>
+  </div>
+  <div class="news-card">
+    <h2>Заголовок новости 2</h2>
+    <p>Краткое описание новости. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <p class="date">11 июня 2024</p>
+    <a href="#" class="read-more-button">Подробнее</a>
+  </div>
+  <!-- Добавьте больше карточек новостей по аналогии -->
+</div>
+
+<footer style="height: 80px;background: #007bff; border-radius: 24px;margin-top: 50px; display: flex; align-items: center; justify-content: center;">
+  <h2 style="color: #ffffff;">Skill Share</h2>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mobileMenu = document.querySelector('.mobile-menu');
+
+    menuToggle.addEventListener('click', function() {
+      menuToggle.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+    });
+  });
+</script>
+</body>
+</html>

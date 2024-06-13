@@ -80,7 +80,14 @@
 			<id>spring-milestones</id>
 			<name>Spring Milestones</name>
 			<url>https://repo.spring.io/milestone</url>
-			<snapshots>
+			<snapshots><resources>
+			<resource>
+				<directory>src/main/resources/static</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+		</resources>
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
