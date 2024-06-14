@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Личный кабинет</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link rel="stylesheet" href="./styles/personal.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -120,5 +121,185 @@
     });
   });
 </script>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
+}
+
+.formWrapper {
+    width: 100%;
+    height: calc(100vh - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+a, header {color: black}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    color: black;
+}
+
+.menu-center {
+    display: flex;
+    gap: 20px;
+}
+
+.menu-center a,
+.menu-right a, .menu-toggle a, .mobile-menu a{
+    color: #000000;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.menu-right .user-icon img {
+    width: 24px;
+    height: 24px;
+}
+.user-icon {
+    display: flex;align-items: center;gap: 10px;
+}
+
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    position: relative;
+    width: 25px;
+    height: 18px;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #000000;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-toggle.active span:nth-child(1) {
+    transform: translateY(7.5px) rotate(45deg);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: translateY(-7.5px) rotate(-45deg);
+}
+
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+@media (max-width: 960px) {
+    .menu-center,
+    .menu-right {
+        display: none;
+    }
+    .menu-toggle {
+        display: flex;
+    }
+}
+
+@media (max-width: 960px) {
+    .mobile-menu.active {
+        display: flex;
+    }
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+}
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 50px;
+}
+.user-info {
+    margin-bottom: 20px;
+}
+.user-info p {
+    margin: 5px 0;
+    color: #555;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+button {
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+}
+
+.containers {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+@media (max-width: 1000px) {
+    .containers {display: flex; flex-direction: column;}
+}
+
+#findButton {
+    color: black; background: white; border: 1px solid black; margin-top: 20px;
+    transition: scale 0.3s ease;
+}
+#findButton:hover {
+    scale: 1.03;
+}
+</style>
 </body>
 </html>

@@ -43,7 +43,7 @@ public class AnonimusEndPoints {
     public ResponseEntity register(@RequestBody UserModel user, HttpServletResponse response, HttpServletRequest request) {
         String pass = user.getPassword();
         user.setPassword(utils.encode(user.getPassword()));
-        registration.regiter(user, pass);
+        registration.register(user, pass);
 
         response.addCookie(registration.setCookieToken(user.getName()));
         return new ResponseEntity(HttpStatus.OK);
@@ -98,7 +98,7 @@ public class AnonimusEndPoints {
         String name = utils.getUserName(request);
         UserModel user = dbConnection.findUserByName(name);
 
-        ModelAndView model = new ModelAndView("homePage");
+        ModelAndView model = new ModelAndView("personal.html");
         model.addObject("user", user);
         return model;
     }

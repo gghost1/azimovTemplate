@@ -38,7 +38,7 @@ public class RegistrationService {
     private Utils utils;
 
 
-    public void regiter(UserModel user, String password) {
+    public void register(UserModel user, String password) {
 
         if (!reprository.findByEmail(user.getEmail()).isEmpty()) throw new IllegalArgumentException("Email is already used");
 

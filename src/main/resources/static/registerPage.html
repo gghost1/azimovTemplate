@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Зарегестрироваться</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="./styles/auth.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,10 +57,13 @@
             <input type="email" id="email" name="email" required>
 
             <label for="phone">Телефон:</label>
-            <input type="phone" id="phone" name="phone" required>
+            <input type="tel" id="phone" name="phone" required>
 
             <label for="name">Имя пользователя или название компании:</label>
-            <input type="name" id="name" name="name" required>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="password">Введите пароль:</label>
+            <input type="password" id="password" name="password" required>
 
             <div id="innField" style="display: none;">
                 <label for="inn">ИНН компании:</label>
@@ -78,6 +82,7 @@
                 phone: $('#phone').val(),
                 name: $('#name').val(),
                 password: $('#password').val(),
+                innField: $('inn').val(),
             };
 
             $.ajax({
