@@ -23,6 +23,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -41,6 +44,18 @@ public class AnonimusEndPoints {
     @GetMapping("/register")
     public ModelAndView registerPage() { // will return some page
         return new ModelAndView("registerPage");
+    }
+    // @GetMapping("/registerPage")
+    // public ModelAndView registerPageSecond() { // will return some page
+    //     return new ModelAndView("registerPage");
+    // }
+    @GetMapping("toVacancies")
+    public ModelAndView vacanciesPage() { // will return some page
+        return new ModelAndView("vacancies");
+    }
+    @GetMapping("toNews")
+    public ModelAndView newsPage() { // will return some page
+        return new ModelAndView("news");
     }
     @PostMapping("/register")
     public ModelAndView register(@RequestBody User userEntity, HttpServletResponse response, HttpServletRequest request) {
