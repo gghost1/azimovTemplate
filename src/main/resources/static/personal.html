@@ -49,7 +49,6 @@
       <p>Имя пользователя: <strong th:text="${user.name}"></strong></p>
       <p>Почта: <strong th:text="${user.email}"></strong></p>
       <p>Телефон: <strong th:text="${user.phone}"></strong></p>
-      <p th:if="${user.isCompany}">ИНН: <strong th:text="${info.INN}">123456789012</strong></p>
     </div>
     <div class="form-group">
       <label for="about">Информация о себе:</label>
@@ -176,16 +175,16 @@
     var move = $('move').val() == "yes";
     var businessTrip = $('businessTrip').val() == "yes";
     var cv = {
-      'age' : $('year').val(),
-      'description' :$('desc').val(),
-      'study': $('study').val(),
-      'location' : $('location').val(),
-      'country' : $('country').val(),
-      'move' : move,
-      'businessTrip' : businessTrip,
-      'sheduel' : $('sheduel').val(),
-      'prevJob' : $('cv-long-desc').val(),
-      'skills' : $('skills').val()
+      age : $('year').val(),
+      description :$('desc').val(),
+      study: $('study').val(),
+      location : $('location').val(),
+      country : $('country').val(),
+      move : move,
+      businessTrip : businessTrip,
+      sheduel : $('sheduel').val(),
+      prevJob : $('cv-long-desc').val(),
+      skills : $('skills').val()
     }
   }
   function saveAbout() {

@@ -1,6 +1,7 @@
 package com.example.azimovTemplate.EndPoints;
 
 
+import com.example.azimovTemplate.Models.Entity.User;
 import com.example.azimovTemplate.Models.Tables.NewsModel;
 import com.example.azimovTemplate.Models.Tables.User.CompanyProfileModel;
 import com.example.azimovTemplate.Models.Tables.User.UserModel;
@@ -42,7 +43,9 @@ public class AnonimusEndPoints {
         return new ModelAndView("registerPage");
     }
     @PostMapping("/register")
-    public ModelAndView register(@RequestBody UserModel user, HttpServletResponse response, HttpServletRequest request) {
+    public ModelAndView register(@RequestBody User userEntity, HttpServletResponse response, HttpServletRequest request) {
+
+        UserModel user = new UserModel(userEntity);
         String pass = user.getPassword();
         user.setPassword(utils.encode(user.getPassword()));
         registration.register(user, pass);

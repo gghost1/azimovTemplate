@@ -1,5 +1,6 @@
 package com.example.azimovTemplate.Models.Tables.User;
 
+import com.example.azimovTemplate.Models.Entity.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,12 +18,22 @@ public class UserModel {
     @Column(unique = true)
     private String name;
     private String password;
+    private boolean isCompany;
     private String roles;
     private String code;
     private boolean isVerified;
-    private boolean isCompany = false;
     private int score;
 
+    public UserModel(User user) {
+        this.email = user.getEmail();
+        this.phone = user.getPhone();
+        this.name = user.getName();
+        this.password = user.getPassword();
+        this.isCompany = user.getIsCompany().equals("company");
+    }
+
+    public UserModel() {
+    }
     // here token should be saved(if user will create
     // test and the answer will be mush later token will be updated)
 }
