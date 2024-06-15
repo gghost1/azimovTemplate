@@ -1,8 +1,13 @@
 package com.example.azimovTemplate.EndPoints;
 
+import com.example.azimovTemplate.Models.Entity.CVModel;
+import com.example.azimovTemplate.Models.Entity.VacancyEntity;
+import com.example.azimovTemplate.Models.Tables.Steck;
 import com.example.azimovTemplate.Models.Tables.User.CompanyProfileModel;
 import com.example.azimovTemplate.Models.Tables.User.UserModel;
 import com.example.azimovTemplate.Models.Tables.User.UsersProfile;
+import com.example.azimovTemplate.Models.Tables.VacancyModel;
+import com.example.azimovTemplate.Models.Tables.VacancyTestModel;
 import com.example.azimovTemplate.Services.DbConnection;
 import com.example.azimovTemplate.Services.Reprositories.CompanyInformationModelReprository;
 import com.example.azimovTemplate.Services.Reprositories.SteckModelReprository;
@@ -26,7 +31,10 @@ import org.springframework.security.web.header.Header;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -92,6 +100,23 @@ public class UserEndPoints {
         infoForStack = infoForStack.substring(0,infoForStack.length()-2);
         profile.setInfoForStack(infoForStack);
         dbConnection.updateUsersProfile(profile);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+    @PostMapping("/createCV")
+    public ResponseEntity createVacancy(@RequestBody CVModel cv, HttpServletRequest request) {
+
+        String name = utils.getUserName(request);
+        UserModel user = dbConnection.findUserByName(name);
+
+        if (!user.isCompany()) return new ResponseEntity(HttpStatus.FORBIDDEN);
+
+        CompanyProfileModel profile = dbConnection.findCompanyProfileById(user.getId());
+
+        // send cv model to ml and get file;
+
+        // generateTestOrCreateOwnTest
+
 
         return new ResponseEntity(HttpStatus.OK);
     }

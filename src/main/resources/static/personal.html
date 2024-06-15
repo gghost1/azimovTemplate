@@ -105,6 +105,51 @@
       </div>
       <button onclick="submitJob()">Разместить вакансию</button>
     </div>
+
+
+
+    <div class="container">
+      <h2>Разместить резюме</h2>
+      <div class="form-group">
+        <label for="year">Возраст:</label>
+        <input type="text" id="year" placeholder="Введите ваш возраст...">
+      </div>
+      <div class="form-group">
+        <label for="location">Место проживания:</label>
+        <input type="text" id="location" placeholder="Введите место проживания...">
+      </div>
+      <div class="form-group">
+        <label for="country">Гражданство:</label>
+        <textarea id="country" rows="4" placeholder="Введите ваше гражданство..."></textarea>
+      </div>
+      <div class="form-group">
+        <label for="move">Готовность к переезду:</label>
+        <select id="move" name="move" required>
+          <option value="yes">Да</option>
+          <option value="no">Нет</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="businessTrip">Готовность к переезду:</label>
+        <select id="businessTrip" name="businessTrip" required>
+          <option value="yes">Да</option>
+          <option value="no">Нет</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="sheduel">Занятость:</label>
+        <select id="sheduel" name="sheduel" required>
+          <option value="fullDay">Полная занятость</option>
+          <option value="notFullDay">Частичная занятость</option>
+          <option value="choose">Гибкий график</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="job-long-desc">Опыт работы:</label>
+        <textarea id="cv-long-desc" rows="4" placeholder="Детально опишите ваш опыт работы..."></textarea>
+      </div>
+      <button onclick="submitCv()">Разместить резюме</button>
+    </div>
   </div>
 </div>
 <footer style="height: 80px;background: #007bff; border-radius: 24px;margin-top: 50px; display: flex; align-items: center; justify-content: center;">
@@ -115,13 +160,25 @@
     document.getElementById('about').value = "[[${info.description}]]"
     document.getElementById('stack').value = "[[${info.infoForStack}]]"
   }
-
+  function submitCv() {
+    var move = $('move').val() == "yes";
+    var businessTrip = $('businessTrip').val() == "yes";
+    var cv = {
+      'age' : $('year').val(),
+      'location' : $('location').val(),
+      'country' : $('country').val(),
+      'move' : move,
+      'businessTrip' : businessTrip,
+      'sheduel' : $('sheduel').val(),
+      'prevJob' : $('cv-long-desc').val()
+    }
+  }
   function saveAbout() {
     $.ajax({
       type: "POST",
-      url: "/home/addDescription",
+      url: "/home/createCV",
       contentType: "application/json",
-      data: JSON.stringify($('#about').val()),
+      data: JSON.stringify(cv),
       success: function(response) {
         window.location.href = '/home';
       },
