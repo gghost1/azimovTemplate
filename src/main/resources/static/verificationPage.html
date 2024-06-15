@@ -5,6 +5,14 @@
     <title>Verification</title>
 </head>
 <body>
-
+    <p>Enter code from email:</p>
+    <input type="text" id="code" size="6" onchange="verificate()">
+    <a href="register/" id="send">Send</a>
 </body>
+
+<script>
+    function verificate() {
+        document.getElementById('send').href = "register/" + document.getElementById('code').value;
+    }
+</script>
 </html>
