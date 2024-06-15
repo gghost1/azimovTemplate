@@ -2,7 +2,9 @@ package com.example.azimovTemplate.EndPoints;
 
 
 import com.example.azimovTemplate.Models.Tables.NewsModel;
+import com.example.azimovTemplate.Models.Tables.User.CompanyProfileModel;
 import com.example.azimovTemplate.Models.Tables.User.UserModel;
+import com.example.azimovTemplate.Models.Tables.User.UsersProfile;
 import com.example.azimovTemplate.Services.DbConnection;
 import com.example.azimovTemplate.Services.Reprositories.NewsModelReprository;
 import com.example.azimovTemplate.Services.Security.Utils;
@@ -40,13 +42,13 @@ public class AnonimusEndPoints {
         return new ModelAndView("registerPage");
     }
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody UserModel user, HttpServletResponse response, HttpServletRequest request) {
+    public ModelAndView register(@RequestBody UserModel user, HttpServletResponse response, HttpServletRequest request) {
         String pass = user.getPassword();
         user.setPassword(utils.encode(user.getPassword()));
         registration.register(user, pass);
 
         response.addCookie(registration.setCookieToken(user.getName()));
-        return new ResponseEntity(HttpStatus.OK);
+        return new ModelAndView("verificationPage");
     }
 
     @GetMapping("/verification")
@@ -97,8 +99,15 @@ public class AnonimusEndPoints {
     public ModelAndView homePage(HttpServletRequest request) {
         String name = utils.getUserName(request);
         UserModel user = dbConnection.findUserByName(name);
+        ModelAndView model = new ModelAndView("personal");
+        if (user.isCompany()) {
+            CompanyProfileModel company = dbConnection.findCompanyProfileById(user.getId());
+            model.addObject("info", company);
+        } else {
+            UsersProfile profile = dbConnection.findUserProfileById(user.getId());
+            model.addObject("info", profile);
+        }
 
-        ModelAndView model = new ModelAndView("personal.html");
         model.addObject("user", user);
         return model;
     }

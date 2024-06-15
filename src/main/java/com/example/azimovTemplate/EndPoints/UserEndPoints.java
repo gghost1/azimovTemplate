@@ -55,7 +55,8 @@ public class UserEndPoints {
         if (user.isCompany()) return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         UsersProfile profile = dbConnection.findUserProfileById(user.getId());
-
+        desription = desription.replaceFirst("\"","");
+        desription = desription.substring(0,desription.length()-2);
         profile.setDescription(desription);
         dbConnection.updateUsersProfile(profile);
 

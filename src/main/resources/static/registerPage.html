@@ -77,12 +77,14 @@
 <script>
     $('#FormForRegistration').on('submit', function(e) {
             e.preventDefault();
+            var isCompany = $('#userType').val() == "company";
             var user = {
                 email: $('#email').val(),
                 phone: $('#phone').val(),
                 name: $('#name').val(),
                 password: $('#password').val(),
-                innField: $('inn').val(),
+                innField: $('#inn').val(),
+                isCompany: isCompany
             };
 
             $.ajax({

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" >
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
-<body>
+<body onload="init()">
 <header>
   <nav class="navbar">
     <div class="menu-center">
@@ -46,14 +46,14 @@
   <div class="container" style="border-radius: 24px; border: 1px solid black; margin-top: 50px;">
     <h2>Личный кабинет</h2>
     <div class="user-info">
-      <p>Имя пользователя: <strong>Иван Иванов</strong></p>
-      <p>Почта: <strong>ivan@example.com</strong></p>
-      <p>Телефон: <strong>+7 (123) 456-78-90</strong></p>
-      <p>ИНН: <strong>123456789012</strong></p>
+      <p>Имя пользователя: <strong th:text="${user.name}"></strong></p>
+      <p>Почта: <strong th:text="${user.email}"></strong></p>
+      <p>Телефон: <strong th:text="${user.phone}"></strong></p>
+      <p th:if="${user.isCompany}">ИНН: <strong th:text="${info.INN}">123456789012</strong></p>
     </div>
     <div class="form-group">
       <label for="about">Информация о себе:</label>
-      <textarea id="about" rows="4" placeholder="Расскажите о себе..."></textarea>
+      <textarea id="about" rows="4" placeholder="Расскажите о себе..." ></textarea>
       <button onclick="saveAbout()">Сохранить</button>
     </div>
     <div class="form-group">
@@ -111,6 +111,24 @@
   <h2 style="color: #ffffff;">Skill Share</h2>
 </footer>
 <script>
+  function init() {
+    document.getElementById('about').value = "[[${info.description}]]"
+  }
+
+  function saveAbout() {
+    $.ajax({
+      type: "POST",
+      url: "/home/addDescription",
+      contentType: "application/json",
+      data: JSON.stringify($('#about').val()),
+      success: function(response) {
+        window.location.href = '/home';
+      },
+      error: function(err) {
+        console.error(err);
+      }
+    });
+  }
   document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.querySelector('.menu-toggle');
     const mobileMenu = document.querySelector('.mobile-menu');
