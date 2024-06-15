@@ -88,6 +88,8 @@ public class UserEndPoints {
         if (user.isCompany()) return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         UsersProfile profile = dbConnection.findUserProfileById(user.getId());
+        infoForStack = infoForStack.replaceFirst("\"","");
+        infoForStack = infoForStack.substring(0,infoForStack.length()-2);
         profile.setInfoForStack(infoForStack);
         dbConnection.updateUsersProfile(profile);
 
