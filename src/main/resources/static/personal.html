@@ -114,6 +114,14 @@
         <label for="year">Возраст:</label>
         <input type="text" id="year" placeholder="Введите ваш возраст...">
       </div>
+    <div class="form-group">
+      <label for="desc">О себе:</label>
+      <textarea id="desc" rows="4" placeholder="Напиши о себе..."></textarea>
+    </div>
+      <div class="form-group">
+        <label for="study">Образование</label>
+        <textarea id="study" rows="4" placeholder="Напиши ваше образование и где учились..."></textarea>
+      </div>
       <div class="form-group">
         <label for="location">Место проживания:</label>
         <input type="text" id="location" placeholder="Введите место проживания...">
@@ -148,6 +156,10 @@
         <label for="job-long-desc">Опыт работы:</label>
         <textarea id="cv-long-desc" rows="4" placeholder="Детально опишите ваш опыт работы..."></textarea>
       </div>
+      <div class="form-group">
+        <label for="skills">Навыки</label>
+        <textarea id="skills" rows="4" placeholder="Детально опишите ваши навыки (языки программирование, черты характера)..."></textarea>
+      </div>
       <button onclick="submitCv()">Разместить резюме</button>
     </div>
   </div>
@@ -165,12 +177,15 @@
     var businessTrip = $('businessTrip').val() == "yes";
     var cv = {
       'age' : $('year').val(),
+      'description' :$('desc').val(),
+      'study': $('study').val(),
       'location' : $('location').val(),
       'country' : $('country').val(),
       'move' : move,
       'businessTrip' : businessTrip,
       'sheduel' : $('sheduel').val(),
-      'prevJob' : $('cv-long-desc').val()
+      'prevJob' : $('cv-long-desc').val(),
+      'skills' : $('skills').val()
     }
   }
   function saveAbout() {
