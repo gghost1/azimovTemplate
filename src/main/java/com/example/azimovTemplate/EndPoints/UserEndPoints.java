@@ -102,6 +102,8 @@ public class UserEndPoints {
         String name = utils.getUserName(request);
         UserModel user = dbConnection.findUserByName(name);
 
+        cv.setName(name);
+
         if (user.isCompany()) return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         String url = "http://localhost:3000/cv";

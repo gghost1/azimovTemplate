@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class CVModel {
+    private String name;
     private int age;
     private String description;
     private String education;

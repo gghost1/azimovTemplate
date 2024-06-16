@@ -161,19 +161,19 @@
     document.getElementById('about').value = "[[${info.description}]]"
   }
   function submitCv() {
-    var move = $('move').val() == "yes";
-    var businessTrip = $('businessTrip').val() == "yes";
+    var move = $('#move').val() == "yes";
+    var businessTrip = $('#businessTrip').val() == "yes";
     var cv = {
-      age : $('year').val(),
-      description :$('desc').val(),
-      study: $('study').val(),
-      location : $('location').val(),
-      country : $('country').val(),
+      age : $('#year').val(),
+      description :$('#desc').val(),
+      education: $('#study').val(),
+      location : $('#location').val(),
+      country : $('#country').val(),
       move : move,
       businessTrip : businessTrip,
-      sheduel : $('sheduel').val(),
-      prevJob : $('cv-long-desc').val(),
-      skills : $('skills').val()
+      sheduel : $('#sheduel').val(),
+      prevJob : $('#cv-long-desc').val(),
+      skills : $('#skills').val()
     }
     $.ajax({
       type: "POST",
