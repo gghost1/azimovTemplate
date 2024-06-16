@@ -2,6 +2,7 @@ package com.example.azimovTemplate.EndPoints;
 
 import com.example.azimovTemplate.Models.Entity.CVModel;
 import com.example.azimovTemplate.Models.Entity.VacancyEntity;
+import com.example.azimovTemplate.Models.Tables.CVModelDatabase;
 import com.example.azimovTemplate.Models.Tables.Steck;
 import com.example.azimovTemplate.Models.Tables.User.CompanyProfileModel;
 import com.example.azimovTemplate.Models.Tables.User.UserModel;
@@ -98,12 +99,28 @@ public class UserEndPoints {
 
         String name = utils.getUserName(request);
         UserModel user = dbConnection.findUserByName(name);
-
+        UsersProfile profile = dbConnection.findUserProfileById(user.getId());
+        CVModelDatabase resumeModel = new CVModelDatabase();
         cv.setName(name);
+        profile.setId(profile.getId());
+        resumeModel.setAge(cv.getAge());
+        resumeModel.setName(cv.getName());
+        resumeModel.setEducation(cv.getEducation());
+        resumeModel.setDescription(cv.getDescription());
+        resumeModel.setLocation(cv.getLocation());
+        resumeModel.setCountry(cv.getCountry());
+        resumeModel.setMove(cv.isMove());
+        resumeModel.setBusinessTrip(cv.isBusinessTrip());
+        resumeModel.setSheduel(cv.getSheduel());
+        resumeModel.setPrevJob(cv.getPrevJob());
+        resumeModel.setSkills(cv.getSkills());
+        
+        dbConnection.addResume(resumeModel);
+        
 
         if (user.isCompany()) return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        String url = "http://localhost:3000/cv";
+        String url = "http://localhost:8080/cv";
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
@@ -118,7 +135,7 @@ public class UserEndPoints {
 
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
             byte[] fileBytes = responseEntity.getBody();
-            UsersProfile profile = dbConnection.findUserProfileById(user.getId());
+            profile = dbConnection.findUserProfileById(user.getId());
             profile.setCv(fileBytes);
             dbConnection.updateUsersProfile(profile);
             // here fileBytes should be uploaded to bd

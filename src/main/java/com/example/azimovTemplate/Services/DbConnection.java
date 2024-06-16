@@ -1,5 +1,6 @@
 package com.example.azimovTemplate.Services;
 
+import com.example.azimovTemplate.Models.Tables.CVModelDatabase;
 import com.example.azimovTemplate.Models.Tables.NewsModel;
 import com.example.azimovTemplate.Models.Tables.Steck;
 import com.example.azimovTemplate.Models.Tables.User.CompanyProfileModel;
@@ -23,13 +24,16 @@ public class DbConnection {
     private VacancyTestModelReprository vacancyTestReprository;
     private VacancyModelReprository vacancyReprository;
     private NewsModelReprository newsReprository;
-
+    private CVModelRepository cvModelRepository;
 
     public NewsModel addNews(NewsModel news) {
         return newsReprository.save(news);
     }
     public VacancyModel addVacancy(VacancyModel vacancy) {
         return vacancyReprository.save(vacancy);
+    }
+    public CVModelDatabase addResume(CVModelDatabase cvModelDatabase) {
+        return cvModelRepository.save(cvModelDatabase);
     }
     public VacancyTestModel addVacancyTest(VacancyTestModel vacancyTest) {
         return vacancyTestReprository.save(vacancyTest);

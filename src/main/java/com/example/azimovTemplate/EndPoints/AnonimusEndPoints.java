@@ -2,11 +2,13 @@ package com.example.azimovTemplate.EndPoints;
 
 
 import com.example.azimovTemplate.Models.Entity.User;
+import com.example.azimovTemplate.Models.Tables.CVModelDatabase;
 import com.example.azimovTemplate.Models.Tables.NewsModel;
 import com.example.azimovTemplate.Models.Tables.User.CompanyProfileModel;
 import com.example.azimovTemplate.Models.Tables.User.UserModel;
 import com.example.azimovTemplate.Models.Tables.User.UsersProfile;
 import com.example.azimovTemplate.Services.DbConnection;
+import com.example.azimovTemplate.Services.Reprositories.CVModelRepository;
 import com.example.azimovTemplate.Services.Reprositories.NewsModelReprository;
 import com.example.azimovTemplate.Services.Security.Utils;
 import com.example.azimovTemplate.Services.Security.RegistrationService;
@@ -49,9 +51,13 @@ public class AnonimusEndPoints {
     // public ModelAndView registerPageSecond() { // will return some page
     //     return new ModelAndView("registerPage");
     // }
+    private CVModelRepository cvModelRepository;
     @GetMapping("toVacancies")
     public ModelAndView vacanciesPage() { // will return some page
-        return new ModelAndView("vacancies");
+        ModelAndView model = new ModelAndView("vacancies");
+        List<CVModelDatabase> cvModels = cvModelRepository.findAll();
+        model.addObject("resume",cvModels);
+        return model;
     }
     @GetMapping("toNews")
     public ModelAndView newsPage() { // will return some page

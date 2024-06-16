@@ -39,7 +39,7 @@
 <div style="width: 35%; height: 3px; background: #007bff; border-radius: 50px;"></div>
 
 <div class="header">
-    <h1>Вакансии</h1>
+    <h1></h1>
 </div>
 <div class="container">
 
@@ -48,12 +48,19 @@
         <button onclick="searchJobs()">поиск</button>
     </div>
 
+    <div th:each="n: ${resume}">
+        <span th:text="${n.name}"></span>
+        <span th:text="${n.skills}"></span>
+        <span th:text="${n.description}"/>
+    </div>
     <div class="job-listing">
-        <h3>Разработчик Frontend</h3>
-        <p class="salary">от 100 000 до 150 000 руб.</p>
+        <h3></h3>
+        <p class="salary">от 100 000{{ user.des }} до 150 000 руб.</p>
         <p>Мы ищем опытного frontend-разработчика для работы над крупными веб-проектами.</p>
         <button onclick="viewDetails()">Подробнее</button>
     </div>
+
+
     <div class="job-listing">
         <h3>Бизнес-аналитик</h3>
         <p class="salary">от 80 000 до 120 000 руб.</p>
