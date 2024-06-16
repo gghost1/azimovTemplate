@@ -42,9 +42,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 
 
 @RestController
@@ -121,7 +118,9 @@ public class UserEndPoints {
 
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
             byte[] fileBytes = responseEntity.getBody();
-
+            UsersProfile profile = dbConnection.findUserProfileById(user.getId());
+            profile.setCv(fileBytes);
+            dbConnection.updateUsersProfile(profile);
             // here fileBytes should be uploaded to bd
 
 

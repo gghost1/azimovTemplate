@@ -77,6 +77,7 @@ public class DbConnection {
         userProfileReprository.delete(prevUser);
         userProfileReprository.save(profile);
     }
+    
 
     public UserModel findUserByName(String name) {
         return userReprository.findByName(name).orElseThrow();
