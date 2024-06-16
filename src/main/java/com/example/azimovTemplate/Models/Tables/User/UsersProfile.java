@@ -13,8 +13,8 @@ public class UsersProfile {
 
     @Column(unique = true)
     private String description;
-    private String experience;
-    private String infoForStack;
+
+    private byte[] cv;
 
     @Setter
     @OneToOne(fetch = FetchType.LAZY)

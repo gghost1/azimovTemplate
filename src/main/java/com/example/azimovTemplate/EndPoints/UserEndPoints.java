@@ -23,17 +23,24 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.base64.Base64Encoder;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.header.Header;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,11 +50,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/home/")
 @AllArgsConstructor
+
 public class UserEndPoints {
 
     private SteckModelReprository steckReprository;
     private DbConnection dbConnection;
     private Utils utils;
+    private final RestTemplate restTemplate;
 
     // @GetMapping("/addWorkExperience")
     // public ModelAndView sendAnswerPage() {
@@ -87,33 +96,44 @@ public class UserEndPoints {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PostMapping("/addStack")
-    public ResponseEntity postMethodName(@RequestBody String infoForStack, HttpServletRequest request) {
+    @PostMapping("/createCV")
+    public ResponseEntity createVacancy(@RequestBody CVModel cv, HttpServletRequest request) throws IOException {
 
         String name = utils.getUserName(request);
         UserModel user = dbConnection.findUserByName(name);
 
         if (user.isCompany()) return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        UsersProfile profile = dbConnection.findUserProfileById(user.getId());
-        infoForStack = infoForStack.replaceFirst("\"","");
-        infoForStack = infoForStack.substring(0,infoForStack.length()-2);
-        profile.setInfoForStack(infoForStack);
-        dbConnection.updateUsersProfile(profile);
+        String url = "http://localhost:3000/cv";
 
-        return new ResponseEntity(HttpStatus.OK);
-    }
-    @PostMapping("/createCV")
-    public ResponseEntity createVacancy(@RequestBody CVModel cv, HttpServletRequest request) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
 
-        String name = utils.getUserName(request);
-        UserModel user = dbConnection.findUserByName(name);
+        HttpEntity<CVModel> requestTo = new HttpEntity<>(cv, headers);
 
-        if (!user.isCompany()) return new ResponseEntity(HttpStatus.FORBIDDEN);
+        ResponseEntity<byte[]> responseEntity = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                requestTo,
+                byte[].class);
 
-        CompanyProfileModel profile = dbConnection.findCompanyProfileById(user.getId());
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            byte[] fileBytes = responseEntity.getBody();
 
-        // send cv model to ml and get file;
+            // here fileBytes should be uploaded to bd
+
+
+            // pdf file save local
+            String outputFile = "example.pdf";
+            try (FileOutputStream fos = new FileOutputStream(outputFile)) {
+                fos.write(fileBytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+            // send cv model to ml and get file;
 
         // generateTestOrCreateOwnTest
 
