@@ -2,17 +2,198 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verification</title>
+    <link rel="stylesheet" href="./styles/vacancy.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <p> Enter code from Email: </p>
-    <input type="text" id="code" size="6" onchange="verificate()">
-    <a href="register/" id="send">Send</a>
+    <header>
+        <nav class="navbar">
+            <div class="menu-center">
+                <a href="#">вакансии</a>
+                <a href="#">новости</a>
+                <a href="#">чаты</a>
+                <a href="#">стажировки</a>
+            </div>
+            <div class="menu-right">
+                <a href="#" class="user-icon">
+                    <p style="font-size: 12px;">войти/зарегестрироваться</p>
+                    <img src="images/usericon.png" alt="User Icon">
+                </a>
+            </div>
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+        <div class="mobile-menu">
+            <a href="#" class="user-icon">
+                <img src="images/usericon.png" alt="User Icon" style="width: 60px;">
+            </a>
+            <a href="#" style="margin-top: 50px;">вакансии</a>
+            <a href="#">новости</a>
+            <a href="#">чаты</a>
+            <a href="#">стажировки</a>
+        </div>
+    </header>
+    <div style="width: 35%; height: 3px; background: #007bff; border-radius: 50px;"></div>
+
+    <div class="container">
+        <p> Enter code from Email: </p>
+        <input type="text" id="code" size="6" onchange="verificate()">
+        <a href="register/" id="send">Send</a>
+    </div>
 </body>
+
+<style>
+    .container {
+        margin-top: 100px;
+        width: 300px;
+        height: 300px;
+        background: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+    .container a {
+        text-decoration: none;
+        margin-top: 30px;
+        border: 1px solid black;
+        border-radius: 23px;
+        padding: 7px 40px;
+        transition: scale 0.3s ease;
+    }
+    .container a:hover {
+        scale: 1.07;
+    }
+    .container input {
+        color: #007bff;
+        width: 100px;
+        height: 30px;
+    }
+</style>
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        font-family: "Montserrat", sans-serif;
+    }
+
+    .formWrapper {
+        width: 100%;
+        height: calc(100vh - 200px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    a, header {color: black}
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        color: black;
+    }
+
+    .menu-center {
+        display: flex;
+        gap: 20px;
+    }
+
+    .menu-center a,
+    .menu-right a, .menu-toggle a, .mobile-menu a{
+        color: #000000;
+        text-decoration: none;
+        font-size: 18px;
+    }
+
+    .menu-right .user-icon img {
+        width: 24px;
+        height: 24px;
+    }
+    .user-icon {
+        display: flex;align-items: center;gap: 10px;
+    }
+
+    .menu-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        position: relative;
+        width: 25px;
+        height: 18px;
+    }
+
+    .menu-toggle span {
+        display: block;
+        width: 100%;
+        height: 3px;
+        background-color: #000000;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+        transform: translateY(7.5px) rotate(45deg);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+        transform: translateY(-7.5px) rotate(-45deg);
+    }
+
+    .mobile-menu {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    @media (max-width: 960px) {
+        .menu-center,
+        .menu-right {
+            display: none;
+        }
+        .menu-toggle {
+            display: flex;
+        }
+    }
+
+    @media (max-width: 960px) {
+        .mobile-menu.active {
+            display: flex;
+        }
+    }
+</style>
 
 <script>
     function verificate() {
         document.getElementById('send').href = "register/" + document.getElementById('code').value;
     }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        menuToggle.addEventListener('click', function() {
+            menuToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+    });
 </script>
 </html>
