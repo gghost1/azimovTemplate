@@ -48,6 +48,7 @@
         <button onclick="searchJobs()">поиск</button>
     </div>
 
+    <!-- код ниже нужен для того, чтобы размещать данные о resume и выводить их на страницу -->
     <div th:each="n: ${resume}">
         <span th:text="${n.name}"></span>
         <span th:text="${n.skills}"></span>
